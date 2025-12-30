@@ -21,21 +21,20 @@
         }
 
         .wrapper {
-            max-width: 700px;
+            max-width: 650px;
             margin: 0 auto;
         }
 
         .top-section {
             text-align: center;
-            padding: 25px 0;
-            border-bottom: 1px solid #2a2a2a;
+            padding: 20px 0;
+            border-bottom: 1px solid #222;
             margin-bottom: 20px;
         }
 
         .top-section h1 {
             font-size: 20px;
             color: #22c55e;
-            margin-bottom: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -43,26 +42,27 @@
         }
 
         .top-section p {
-            color: #666;
+            color: #555;
             font-size: 12px;
+            margin-top: 5px;
         }
 
         .panel {
-            background: #161616;
-            border: 1px solid #2a2a2a;
+            background: #141414;
+            border: 1px solid #252525;
             border-radius: 6px;
             margin-bottom: 15px;
         }
 
         .panel-header {
-            background: #1f1f1f;
-            padding: 12px 15px;
-            border-bottom: 1px solid #2a2a2a;
+            background: #1a1a1a;
+            padding: 10px 15px;
+            border-bottom: 1px solid #252525;
+            font-size: 13px;
+            font-weight: bold;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 13px;
-            font-weight: bold;
         }
 
         .panel-header i {
@@ -73,89 +73,127 @@
             padding: 15px;
         }
 
-        .code-area {
+        .code-box {
             width: 100%;
-            height: 180px;
+            height: 160px;
             background: #0a0a0a;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
             border-radius: 4px;
-            padding: 12px;
+            padding: 10px;
             font-family: Consolas, monospace;
             font-size: 12px;
             color: #22c55e;
             resize: vertical;
         }
 
-        .code-area:focus {
+        .code-box:focus {
             outline: none;
             border-color: #22c55e;
         }
 
-        .code-area::placeholder {
-            color: #444;
+        .code-box::placeholder {
+            color: #333;
         }
 
         .options-row {
             display: flex;
             gap: 15px;
-            margin-top: 12px;
+            margin-top: 10px;
             flex-wrap: wrap;
         }
 
         .option-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: #888;
+            gap: 5px;
+            font-size: 11px;
+            color: #777;
         }
 
-        .option-item input[type="checkbox"] {
+        .option-item input {
             accent-color: #22c55e;
         }
 
-        .action-button {
+        .method-item {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .method-item:hover {
+            border-color: #333;
+        }
+
+        .method-item.picked {
+            border-color: #22c55e;
+            background: #0a1a0a;
+        }
+
+        .method-title {
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .method-title i {
+            color: #22c55e;
+        }
+
+        .method-desc {
+            font-size: 10px;
+            color: #555;
+            margin-top: 3px;
+        }
+
+        .main-button {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: #22c55e;
             color: #000;
             border: none;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
 
-        .action-button:hover {
+        .main-button:hover {
             background: #1db954;
         }
 
-        .action-button:disabled {
+        .main-button:disabled {
             background: #333;
-            color: #666;
+            color: #555;
             cursor: not-allowed;
         }
 
-        .result-box {
+        .output-area {
             display: none;
-            background: #0a1a0a;
-            border: 1px solid #22c55e;
-            border-radius: 4px;
-            padding: 15px;
             margin-top: 15px;
         }
 
-        .result-box.visible {
+        .output-area.visible {
             display: block;
         }
 
-        .result-title {
-            font-size: 13px;
+        .output-box {
+            background: #050505;
+            border: 1px solid #22c55e;
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .output-title {
+            font-size: 12px;
             font-weight: bold;
             color: #22c55e;
             margin-bottom: 10px;
@@ -164,122 +202,56 @@
             gap: 6px;
         }
 
-        .result-content {
+        .output-label {
+            font-size: 10px;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .output-content {
             background: #000;
-            padding: 12px;
+            padding: 10px;
             border-radius: 4px;
             font-family: Consolas, monospace;
             font-size: 11px;
             color: #0f0;
             word-break: break-all;
-            max-height: 120px;
+            max-height: 100px;
             overflow-y: auto;
+            margin-bottom: 10px;
         }
 
-        .result-info {
+        .output-content.yellow {
+            color: #ff0;
+        }
+
+        .output-info {
+            font-size: 10px;
+            color: #444;
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
-            font-size: 11px;
-            color: #666;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .copy-button {
-            padding: 10px 20px;
-            background: #1f1f1f;
+        .small-button {
+            padding: 8px 15px;
+            background: #1a1a1a;
             color: #22c55e;
             border: 1px solid #22c55e;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
-            margin-top: 10px;
+            font-size: 11px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            margin-top: 10px;
+            margin-right: 5px;
         }
 
-        .copy-button:hover {
+        .small-button:hover {
             background: #22c55e;
             color: #000;
-        }
-
-        .url-section {
-            display: none;
-            margin-top: 15px;
-        }
-
-        .url-section.visible {
-            display: block;
-        }
-
-        .url-box {
-            background: #000;
-            padding: 12px;
-            border-radius: 4px;
-            font-family: Consolas, monospace;
-            font-size: 11px;
-            color: #0af;
-            word-break: break-all;
-        }
-
-        .loadstring-output {
-            background: #000;
-            padding: 12px;
-            border-radius: 4px;
-            font-family: Consolas, monospace;
-            font-size: 11px;
-            color: #ff0;
-            word-break: break-all;
-            margin-top: 10px;
-        }
-
-        .bottom-section {
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #2a2a2a;
-            margin-top: 20px;
-        }
-
-        .credit-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #1a1a2e;
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid #5865F2;
-        }
-
-        .credit-badge i {
-            color: #5865F2;
-            font-size: 16px;
-        }
-
-        .credit-badge .name {
-            color: #5865F2;
-            font-weight: bold;
-        }
-
-        .stats-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #22c55e;
-        }
-
-        .stat-label {
-            font-size: 10px;
-            color: #666;
         }
 
         .tab-row {
@@ -291,25 +263,21 @@
         .tab-item {
             flex: 1;
             padding: 10px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            color: #666;
+            background: #141414;
+            border: 1px solid #222;
+            color: #555;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             text-align: center;
             border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
 
         .tab-item:hover {
-            background: #222;
+            background: #1a1a1a;
         }
 
         .tab-item.selected {
-            background: #161616;
+            background: #141414;
             color: #22c55e;
             border-color: #22c55e;
         }
@@ -322,40 +290,86 @@
             display: block;
         }
 
-        .method-box {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 4px;
-            padding: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
+        .bottom-section {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #222;
+            margin-top: 20px;
         }
 
-        .method-box:hover {
-            border-color: #444;
+        .credit-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #141428;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #5865F2;
         }
 
-        .method-box.picked {
-            border-color: #22c55e;
-            background: #0a1a0a;
+        .credit-box i {
+            color: #5865F2;
+            font-size: 16px;
         }
 
-        .method-name {
+        .credit-box .name {
+            color: #5865F2;
             font-weight: bold;
-            font-size: 13px;
+        }
+
+        .info-text {
+            background: #0a1520;
+            border-left: 3px solid #0af;
+            padding: 10px;
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .step-item {
+            background: #1a1a1a;
+            border-radius: 4px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+
+        .step-title {
+            font-weight: bold;
+            font-size: 12px;
             margin-bottom: 4px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .method-name i {
+        .step-title i {
             color: #22c55e;
         }
 
-        .method-desc {
+        .step-desc {
             font-size: 11px;
             color: #666;
+        }
+
+        .url-input-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .url-input {
+            flex: 1;
+            padding: 10px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #22c55e;
         }
 
         .hidden {
@@ -368,16 +382,16 @@
     <div class="wrapper">
 
         <div class="top-section">
-            <h1><i class="fas fa-code"></i> Loadstring Generator</h1>
-            <p>Convert your Lua scripts into loadstring format</p>
+            <h1><i class="fas fa-terminal"></i> Loadstring Generator</h1>
+            <p>Turn Lua scripts into loadstring format</p>
         </div>
 
         <div class="tab-row">
             <button class="tab-item selected" onclick="switchTab('create')">
                 <i class="fas fa-plus"></i> Create
             </button>
-            <button class="tab-item" onclick="switchTab('decode')">
-                <i class="fas fa-unlock"></i> Decode
+            <button class="tab-item" onclick="switchTab('rawurl')">
+                <i class="fas fa-link"></i> Raw URL
             </button>
             <button class="tab-item" onclick="switchTab('guide')">
                 <i class="fas fa-book"></i> Guide
@@ -388,20 +402,19 @@
 
             <div class="panel">
                 <div class="panel-header">
-                    <i class="fas fa-file-code"></i>
-                    Your Lua Script
+                    <i class="fas fa-code"></i>
+                    Lua Script
                 </div>
                 <div class="panel-body">
-                    <textarea class="code-area" id="luaInput" placeholder="Paste your Lua code here..."></textarea>
-                    
+                    <textarea class="code-box" id="scriptInput" placeholder="Paste your Lua code here"></textarea>
                     <div class="options-row">
                         <label class="option-item">
-                            <input type="checkbox" id="optionObfuscate" checked>
-                            <span>Obfuscate output</span>
+                            <input type="checkbox" id="checkObfuscate" checked>
+                            Obfuscate
                         </label>
                         <label class="option-item">
-                            <input type="checkbox" id="optionCompress">
-                            <span>Compress code</span>
+                            <input type="checkbox" id="checkCompress">
+                            Compress
                         </label>
                     </div>
                 </div>
@@ -410,139 +423,188 @@
             <div class="panel">
                 <div class="panel-header">
                     <i class="fas fa-cog"></i>
-                    Output Method
+                    Method
                 </div>
                 <div class="panel-body">
                     
-                    <div class="method-box picked" onclick="pickMethod('encoded')" id="method-encoded">
-                        <div class="method-name">
+                    <div class="method-item picked" onclick="pickMethod('encoded')" id="pick-encoded">
+                        <div class="method-title">
                             <i class="fas fa-lock"></i>
-                            Encoded Loadstring
+                            Encoded
                         </div>
-                        <div class="method-desc">Self contained script with encoded data inside</div>
+                        <div class="method-desc">Base64 encoded with built-in decoder</div>
                     </div>
 
-                    <div class="method-box" onclick="pickMethod('url')" id="method-url">
-                        <div class="method-name">
-                            <i class="fas fa-link"></i>
-                            URL Loadstring
-                        </div>
-                        <div class="method-desc">Creates unique URL and loadstring with HttpGet</div>
-                    </div>
-
-                    <div class="method-box" onclick="pickMethod('bytes')" id="method-bytes">
-                        <div class="method-name">
+                    <div class="method-item" onclick="pickMethod('byte')" id="pick-byte">
+                        <div class="method-title">
                             <i class="fas fa-hashtag"></i>
-                            Byte Loadstring
+                            Byte Format
                         </div>
-                        <div class="method-desc">Converts script to byte characters</div>
+                        <div class="method-desc">Converts to byte characters</div>
+                    </div>
+
+                    <div class="method-item" onclick="pickMethod('hex')" id="pick-hex">
+                        <div class="method-title">
+                            <i class="fas fa-fingerprint"></i>
+                            Hex Format
+                        </div>
+                        <div class="method-desc">Converts to hexadecimal</div>
                     </div>
 
                 </div>
             </div>
 
-            <button class="action-button" id="generateButton" onclick="generateLoadstring()">
+            <button class="main-button" onclick="createLoadstring()">
                 <i class="fas fa-bolt"></i>
-                Generate Loadstring
+                Generate
             </button>
 
-            <div class="result-box" id="resultBox">
-                <div class="result-title">
-                    <i class="fas fa-check-circle"></i>
-                    Generated Successfully
-                </div>
-                
-                <div class="url-section" id="urlSection">
-                    <div style="font-size:11px;color:#888;margin-bottom:5px;">Raw URL:</div>
-                    <div class="url-box" id="rawUrl"></div>
-                </div>
+            <div class="output-area" id="outputArea">
+                <div class="output-box">
+                    <div class="output-title">
+                        <i class="fas fa-check-circle"></i>
+                        Generated
+                    </div>
+                    
+                    <div class="output-label">Loadstring</div>
+                    <div class="output-content" id="finalOutput"></div>
+                    
+                    <div class="output-info">
+                        <span id="infoSize">0 bytes</span>
+                        <span id="infoId">ID: ------</span>
+                    </div>
 
-                <div style="font-size:11px;color:#888;margin-bottom:5px;margin-top:10px;">Loadstring:</div>
-                <div class="result-content" id="loadstringOutput"></div>
-                
-                <div class="result-info">
-                    <span id="infoOriginal">Original: 0 bytes</span>
-                    <span id="infoOutput">Output: 0 bytes</span>
-                    <span id="infoId">ID: ------</span>
+                    <button class="small-button" onclick="copyResult()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
                 </div>
-
-                <button class="copy-button" onclick="copyLoadstring()">
-                    <i class="fas fa-copy"></i>
-                    Copy Loadstring
-                </button>
-                <button class="copy-button" onclick="copyUrl()" id="copyUrlButton" style="display:none;">
-                    <i class="fas fa-link"></i>
-                    Copy URL
-                </button>
             </div>
 
         </div>
 
-        <div class="tab-body" id="body-decode">
+        <div class="tab-body" id="body-rawurl">
+
+            <div class="info-text">
+                <i class="fas fa-info-circle"></i>
+                Create a raw URL using GitHub Gist or Pastebin then generate loadstring from it
+            </div>
+
             <div class="panel">
                 <div class="panel-header">
-                    <i class="fas fa-unlock"></i>
-                    Decode Loadstring
+                    <i class="fas fa-link"></i>
+                    Create from Raw URL
                 </div>
                 <div class="panel-body">
-                    <textarea class="code-area" id="decodeInput" placeholder="Paste encoded loadstring here..."></textarea>
-                    <button class="action-button" onclick="decodeLoadstring()" style="margin-top:10px;">
-                        <i class="fas fa-unlock-alt"></i>
-                        Decode
-                    </button>
-                    <div class="result-box" id="decodeResult" style="margin-top:15px;">
-                        <div class="result-title">
-                            <i class="fas fa-file-alt"></i>
-                            Decoded Script
-                        </div>
-                        <div class="result-content" id="decodedOutput" style="max-height:200px;"></div>
-                        <button class="copy-button" onclick="copyDecoded()" style="margin-top:10px;">
-                            <i class="fas fa-copy"></i>
-                            Copy
+                    <div class="output-label">Paste your raw URL</div>
+                    <div class="url-input-row">
+                        <input type="text" class="url-input" id="rawUrlInput" placeholder="https://raw.githubusercontent.com/...">
+                        <button class="main-button" style="width:auto;padding:10px 15px;" onclick="createFromUrl()">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="output-area" id="urlOutputArea" style="margin-top:15px;">
+                        <div class="output-label">Generated Loadstring</div>
+                        <div class="output-content yellow" id="urlLoadstringOutput"></div>
+                        <button class="small-button" onclick="copyUrlResult()">
+                            <i class="fas fa-copy"></i> Copy
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="tab-body" id="body-guide">
             <div class="panel">
                 <div class="panel-header">
-                    <i class="fas fa-book"></i>
-                    How To Use
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    How to Get Raw URL
                 </div>
                 <div class="panel-body">
                     
-                    <div class="method-box">
-                        <div class="method-name">
+                    <div class="step-item">
+                        <div class="step-title">
+                            <i class="fab fa-github"></i>
+                            GitHub Gist
+                        </div>
+                        <div class="step-desc">
+                            1. Go to gist.github.com<br>
+                            2. Paste your script<br>
+                            3. Click Create<br>
+                            4. Click Raw button<br>
+                            5. Copy the URL
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-title">
+                            <i class="fas fa-paste"></i>
+                            Pastebin
+                        </div>
+                        <div class="step-desc">
+                            1. Go to pastebin.com<br>
+                            2. Paste your script<br>
+                            3. Click Create<br>
+                            4. Click Raw button<br>
+                            5. Copy the URL
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-title">
+                            <i class="fab fa-github"></i>
+                            GitHub Repository
+                        </div>
+                        <div class="step-desc">
+                            1. Upload lua file to your repo<br>
+                            2. Click on the file<br>
+                            3. Click Raw button<br>
+                            4. Copy the URL
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tab-body" id="body-guide">
+
+            <div class="panel">
+                <div class="panel-header">
+                    <i class="fas fa-book"></i>
+                    How to Use
+                </div>
+                <div class="panel-body">
+                    
+                    <div class="step-item">
+                        <div class="step-title">
                             <i class="fas fa-1"></i>
-                            Paste Your Script
+                            Enter Script
                         </div>
-                        <div class="method-desc">Enter your Lua code in the text area</div>
+                        <div class="step-desc">Paste your Lua code in the text box</div>
                     </div>
 
-                    <div class="method-box">
-                        <div class="method-name">
+                    <div class="step-item">
+                        <div class="step-title">
                             <i class="fas fa-2"></i>
-                            Choose Method
+                            Pick Method
                         </div>
-                        <div class="method-desc">Select encoded, URL, or byte format</div>
+                        <div class="step-desc">Choose encoded, byte, or hex format</div>
                     </div>
 
-                    <div class="method-box">
-                        <div class="method-name">
+                    <div class="step-item">
+                        <div class="step-title">
                             <i class="fas fa-3"></i>
                             Generate
                         </div>
-                        <div class="method-desc">Click the generate button</div>
+                        <div class="step-desc">Click the generate button</div>
                     </div>
 
-                    <div class="method-box">
-                        <div class="method-name">
+                    <div class="step-item">
+                        <div class="step-title">
                             <i class="fas fa-4"></i>
                             Copy and Use
                         </div>
-                        <div class="method-desc">Copy the loadstring and run in your executor</div>
+                        <div class="step-desc">Copy the loadstring and run in executor</div>
                     </div>
 
                 </div>
@@ -551,29 +613,20 @@
             <div class="panel">
                 <div class="panel-header">
                     <i class="fas fa-info-circle"></i>
-                    About Methods
+                    Methods Explained
                 </div>
-                <div class="panel-body" style="font-size:12px;color:#888;line-height:1.8;">
-                    <p><b style="color:#22c55e;">Encoded:</b> Uses base64 encoding. Best for most cases.</p>
-                    <p><b style="color:#22c55e;">URL:</b> Creates a unique URL. Good for sharing.</p>
-                    <p><b style="color:#22c55e;">Byte:</b> Converts to byte format. Hard to read.</p>
+                <div class="panel-body" style="font-size:11px;color:#888;line-height:1.8;">
+                    <p><b style="color:#22c55e;">Encoded:</b> Uses base64. Good for most scripts.</p>
+                    <p><b style="color:#22c55e;">Byte:</b> Uses byte numbers. Harder to read.</p>
+                    <p><b style="color:#22c55e;">Hex:</b> Uses hex values. Very hard to read.</p>
+                    <p><b style="color:#22c55e;">Raw URL:</b> Uses external hosting. Best for large scripts.</p>
                 </div>
             </div>
-        </div>
 
-        <div class="stats-row">
-            <div class="stat-item">
-                <div class="stat-value" id="statGenerated">0</div>
-                <div class="stat-label">Generated</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="statBytes">0</div>
-                <div class="stat-label">Bytes Processed</div>
-            </div>
         </div>
 
         <div class="bottom-section">
-            <div class="credit-badge">
+            <div class="credit-box">
                 <i class="fab fa-discord"></i>
                 <span>Made by <span class="name">dashalostacc</span></span>
             </div>
@@ -582,988 +635,233 @@
     </div>
 
     <script>
-        var currentMethod = "encoded";
-        var generatedCount = 0;
-        var bytesProcessed = 0;
-        var lastGeneratedUrl = "";
-        var lastGeneratedLoadstring = "";
+        var pickedMethod = "encoded";
+        var lastOutput = "";
+        var lastUrlOutput = "";
 
-        function switchTab(tabName) {
-            var allTabs = document.querySelectorAll('.tab-item');
-            var allBodies = document.querySelectorAll('.tab-body');
+        function switchTab(name) {
+            var tabs = document.querySelectorAll('.tab-item');
+            var bodies = document.querySelectorAll('.tab-body');
             
-            for (var i = 0; i < allTabs.length; i++) {
-                allTabs[i].classList.remove('selected');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('selected');
             }
-            for (var i = 0; i < allBodies.length; i++) {
-                allBodies[i].classList.remove('selected');
+            for (var i = 0; i < bodies.length; i++) {
+                bodies[i].classList.remove('selected');
             }
             
             event.target.closest('.tab-item').classList.add('selected');
-            document.getElementById('body-' + tabName).classList.add('selected');
+            document.getElementById('body-' + name).classList.add('selected');
         }
 
-        function pickMethod(methodName) {
-            currentMethod = methodName;
+        function pickMethod(name) {
+            pickedMethod = name;
             
-            var allMethods = document.querySelectorAll('.method-box');
-            for (var i = 0; i < allMethods.length; i++) {
-                allMethods[i].classList.remove('picked');
+            var items = document.querySelectorAll('.method-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('picked');
             }
             
-            document.getElementById('method-' + methodName).classList.add('picked');
+            document.getElementById('pick-' + name).classList.add('picked');
         }
 
-        function createUniqueId() {
-            var timestamp = Date.now().toString(36);
-            var randomPart = Math.random().toString(36).substring(2, 8);
-            return timestamp + randomPart;
-        }
-
-        function encodeToBase64(text) {
-            var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        function makeId() {
+            var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
             var result = "";
-            var padding = "";
-            var padCount = text.length % 3;
-            
-            if (padCount > 0) {
-                for (; padCount < 3; padCount++) {
-                    padding += "=";
-                    text += "\0";
-                }
-            }
-            
-            for (var i = 0; i < text.length; i += 3) {
-                var combined = (text.charCodeAt(i) << 16) | (text.charCodeAt(i + 1) << 8) | text.charCodeAt(i + 2);
-                var partOne = (combined >> 18) & 63;
-                var partTwo = (combined >> 12) & 63;
-                var partThree = (combined >> 6) & 63;
-                var partFour = combined & 63;
-                result += characters.charAt(partOne) + characters.charAt(partTwo) + characters.charAt(partThree) + characters.charAt(partFour);
-            }
-            
-            return result.substring(0, result.length - padding.length) + padding;
-        }
-
-        function decodeFromBase64(encoded) {
-            var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-            var lookup = {};
-            
-            for (var i = 0; i < characters.length; i++) {
-                lookup[characters.charAt(i)] = i;
-            }
-            
-            encoded = encoded.replace(/=+$/, "");
-            var result = "";
-            
-            for (var i = 0; i < encoded.length; i += 4) {
-                var first = lookup[encoded.charAt(i)] || 0;
-                var second = lookup[encoded.charAt(i + 1)] || 0;
-                var third = lookup[encoded.charAt(i + 2)] || 0;
-                var fourth = lookup[encoded.charAt(i + 3)] || 0;
-                
-                var combined = (first << 18) | (second << 12) | (third << 6) | fourth;
-                
-                result += String.fromCharCode((combined >> 16) & 255);
-                if (encoded.charAt(i + 2) !== "=") {
-                    result += String.fromCharCode((combined >> 8) & 255);
-                }
-                if (encoded.charAt(i + 3) !== "=") {
-                    result += String.fromCharCode(combined & 255);
-                }
-            }
-            
-            return result;
-        }
-
-        function convertToBytes(text) {
-            var bytes = [];
-            for (var i = 0; i < text.length; i++) {
-                bytes.push(text.charCodeAt(i));
-            }
-            return bytes;
-        }
-
-        function compressText(text) {
-            var lines = text.split('\n');
-            var cleanedLines = [];
-            
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i].trim();
-                if (line !== "" && line.substring(0, 2) !== "--") {
-                    cleanedLines.push(line);
-                }
-            }
-            
-            return cleanedLines.join(' ');
-        }
-
-        function shuffleString(text) {
-            var key = Math.floor(Math.random() * 50) + 10;
-            var result = "";
-            
-            for (var i = 0; i < text.length; i++) {
-                var charCode = text.charCodeAt(i);
-                var newCode = charCode + key;
-                result += String.fromCharCode(newCode);
-            }
-            
-            return { shuffled: result, key: key };
-        }
-
-        function generateEncodedLoadstring(script, shouldObfuscate) {
-            var uniqueId = createUniqueId();
-            var encoded = encodeToBase64(script);
-            
-            if (shouldObfuscate) {
-                var decoderScript = 'local _G_' + uniqueId + '=(function()';
-                decoderScript += 'local e="' + encoded + '"';
-                decoderScript += 'local c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"';
-                decoderScript += 'local t={}';
-                decoderScript += 'for i=1,64 do t[c:sub(i,i)]=i-1 end ';
-                decoderScript += 'e=e:gsub("=","")';
-                decoderScript += 'local r=""';
-                decoderScript += 'for i=1,#e,4 do ';
-                decoderScript += 'local a,b,c,d=t[e:sub(i,i)]or 0,t[e:sub(i+1,i+1)]or 0,t[e:sub(i+2,i+2)]or 0,t[e:sub(i+3,i+3)]or 0 ';
-                decoderScript += 'local n=(a*262144)+(b*4096)+(c*64)+d ';
-                decoderScript += 'r=r..string.char(math.floor(n/65536)%256,math.floor(n/256)%256,n%256)';
-                decoderScript += 'end ';
-                decoderScript += 'return r:gsub("%z+$","")';
-                decoderScript += 'end)()';
-                decoderScript += 'loadstring(_G_' + uniqueId + ')()';
-                
-                return { script: decoderScript, id: uniqueId };
-            } else {
-                var simpleLoader = 'loadstring((function()';
-                simpleLoader += 'local d="' + encoded + '"';
-                simpleLoader += 'local b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"';
-                simpleLoader += 'local t={}for i=1,64 do t[b:sub(i,i)]=i-1 end ';
-                simpleLoader += 'd=d:gsub("=","")local o=""';
-                simpleLoader += 'for i=1,#d,4 do local a,b,c,e=t[d:sub(i,i)]or 0,t[d:sub(i+1,i+1)]or 0,t[d:sub(i+2,i+2)]or 0,t[d:sub(i+3,i+3)]or 0 ';
-                simpleLoader += 'local n=(a*262144)+(b*4096)+(c*64)+e ';
-                simpleLoader += 'o=o..string.char(math.floor(n/65536)%256,math.floor(n/256)%256,n%256)end ';
-                simpleLoader += 'return o:gsub("%z+$","")end)())()';
-                
-                return { script: simpleLoader, id: uniqueId };
-            }
-        }
-
-        function generateUrlLoadstring(script) {
-            var uniqueId = createUniqueId();
-            var encoded = encodeToBase64(script);
-            var rawUrl = window.location.origin + window.location.pathname + "?r=" + uniqueId + "&d=" + encodeURIComponent(encoded);
-            
-            var loaderScript = 'loadstring(game:HttpGet("' + rawUrl + '",true))()';
-            
-            return { script: loaderScript, url: rawUrl, id: uniqueId };
-        }
-
-        function generateByteLoadstring(script, shouldObfuscate) {
-            var uniqueId = createUniqueId();
-            var bytes = convertToBytes(script);
-            
-            if (shouldObfuscate) {
-                var shuffled = shuffleString(script);
-                var byteString = "";
-                
-                for (var i = 0; i < shuffled.shuffled.length; i++) {
-                    byteString += "\\" + shuffled.shuffled.charCodeAt(i);
-                }
-                
-                var loader = 'local _' + uniqueId + '=function(s,k)';
-                loader += 'local r=""for i=1,#s do r=r..string.char(s:byte(i)-k)end return r end ';
-                loader += 'loadstring(_' + uniqueId + '("' + byteString + '",' + shuffled.key + '))()';
-                
-                return { script: loader, id: uniqueId };
-            } else {
-                var byteString = "";
-                for (var i = 0; i < bytes.length; i++) {
-                    byteString += "\\" + bytes[i];
-                }
-                
-                var loader = 'loadstring("' + byteString + '")()';
-                return { script: loader, id: uniqueId };
-            }
-        }
-
-        function generateLoadstring() {
-            var luaScript = document.getElementById('luaInput').value;
-            
-            if (luaScript.trim() === "") {
-                alert("Please enter some Lua code");
-                return;
-            }
-            
-            var shouldObfuscate = document.getElementById('optionObfuscate').checked;
-            var shouldCompress = document.getElementById('optionCompress').checked;
-            
-            if (shouldCompress) {
-                luaScript = compressText(luaScript);
-            }
-            
-            var originalSize = luaScript.length;
-            var result;
-            
-            if (currentMethod === "encoded") {
-                result = generateEncodedLoadstring(luaScript, shouldObfuscate);
-                lastGeneratedLoadstring = result.script;
-                lastGeneratedUrl = "";
-                document.getElementById('urlSection').classList.remove('visible');
-                document.getElementById('copyUrlButton').style.display = 'none';
-            } else if (currentMethod === "url") {
-                result = generateUrlLoadstring(luaScript);
-                lastGeneratedLoadstring = result.script;
-                lastGeneratedUrl = result.url;
-                document.getElementById('rawUrl').textContent = result.url;
-                document.getElementById('urlSection').classList.add('visible');
-                document.getElementById('copyUrlButton').style.display = 'inline-flex';
-            } else if (currentMethod === "bytes") {
-                result = generateByteLoadstring(luaScript, shouldObfuscate);
-                lastGeneratedLoadstring = result.script;
-                lastGeneratedUrl = "";
-                document.getElementById('urlSection').classList.remove('visible');
-                document.getElementById('copyUrlButton').style.display = 'none';
-            }
-            
-            document.getElementById('loadstringOutput').textContent = result.script;
-            document.getElementById('infoOriginal').textContent = "Original: " + originalSize + " bytes";
-            document.getElementById('infoOutput').textContent = "Output: " + result.script.length + " bytes";
-            document.getElementById('infoId').textContent = "ID: " + result.id;
-            document.getElementById('resultBox').classList.add('visible');
-            
-            generatedCount++;
-            bytesProcessed += originalSize;
-            document.getElementById('statGenerated').textContent = generatedCount;
-            document.getElementById('statBytes').textContent = bytesProcessed;
-            
-            saveToStorage(result.id, luaScript);
-        }
-
-        function saveToStorage(identifier, script) {
-            try {
-                var stored = localStorage.getItem('loadstring_data') || "{}";
-                var data = JSON.parse(stored);
-                data[identifier] = {
-                    script: script,
-                    created: Date.now()
-                };
-                localStorage.setItem('loadstring_data', JSON.stringify(data));
-            } catch (error) {
-            }
-        }
-
-        function copyLoadstring() {
-            navigator.clipboard.writeText(lastGeneratedLoadstring);
-            alert("Loadstring copied");
-        }
-
-        function copyUrl() {
-            navigator.clipboard.writeText(lastGeneratedUrl);
-            alert("URL copied");
-        }
-
-        function decodeLoadstring() {
-            var input = document.getElementById('decodeInput').value;
-            var decoded = "";
-            
-            try {
-                var base64Match = input.match(/"([A-Za-z0-9+/=]+)"/);
-                if (base64Match) {
-                    decoded = decodeFromBase64(base64Match[1]);
-                }
-                
-                if (decoded === "") {
-                    var byteMatch = input.match(/"((?:\\[0-9]+)+)"/);
-                    if (byteMatch) {
-                        var byteString = byteMatch[1];
-                        var bytes = byteString.split('\\').filter(function(b) { return b !== ""; });
-                        for (var i = 0; i < bytes.length; i++) {
-                            decoded += String.fromCharCode(parseInt(bytes[i]));
-                        }
-                    }
-                }
-                
-                if (decoded === "") {
-                    decoded = "Could not decode the input";
-                }
-            } catch (error) {
-                decoded = "Error decoding: " + error.message;
-            }
-            
-            document.getElementById('decodedOutput').textContent = decoded;
-            document.getElementById('decodeResult').classList.add('visible');
-        }
-
-        function copyDecoded() {
-            var decoded = document.getElementById('decodedOutput').textContent;
-            navigator.clipboard.writeText(decoded);
-            alert("Decoded script copied");
-        }
-
-        window.onload = function() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var requestId = urlParams.get('r');
-            var requestData = urlParams.get('d');
-            
-            if (requestId && requestData) {
-                try {
-                    var decoded = decodeURIComponent(requestData);
-                    var script = decodeFromBase64(decoded);
-                    document.body.innerHTML = "<pre>" + script + "</pre>";
-                    document.body.style.background = "#000";
-                    document.body.style.color = "#0f0";
-                    document.body.style.padding = "10px";
-                    document.body.style.fontFamily = "monospace";
-                    document.body.style.whiteSpace = "pre-wrap";
-                    document.body.style.wordBreak = "break-all";
-                } catch (error) {
-                }
-            }
-        };
-    </script>
-
-</body>
-                                </html>            color: #0af;
-        }
-
-        .card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 6px;
-            padding: 20px;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #0af;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .step-number {
-            background: #0af;
-            color: #000;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .captcha-box {
-            background: #222;
-            border: 1px solid #444;
-            border-radius: 4px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .captcha-question {
-            font-size: 20px;
-            margin-bottom: 12px;
-            color: #ff0;
-        }
-
-        .captcha-input {
-            width: 80px;
-            padding: 8px;
-            font-size: 16px;
-            text-align: center;
-            background: #333;
-            border: 1px solid #555;
-            border-radius: 4px;
-            color: #fff;
-            margin-right: 8px;
-        }
-
-        .captcha-input:focus {
-            outline: none;
-            border-color: #0af;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            background: #0af;
-            color: #000;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #09e;
-        }
-
-        .btn:disabled {
-            background: #555;
-            color: #888;
-            cursor: not-allowed;
-        }
-
-        .captcha-status {
-            margin-top: 10px;
-            font-size: 13px;
-        }
-
-        .captcha-status.success {
-            color: #0f0;
-        }
-
-        .captcha-status.error {
-            color: #f44;
-        }
-
-        .input-group {
-            margin-bottom: 12px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #aaa;
-            font-size: 12px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            background: #333;
-            border: 1px solid #555;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 13px;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #0af;
-        }
-
-        .input-group small {
-            color: #666;
-            font-size: 11px;
-        }
-
-        .input-group a {
-            color: #0af;
-        }
-
-        .generate-btn {
-            width: 100%;
-            padding: 12px;
-            background: #0af;
-            color: #000;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .generate-btn:hover:not(:disabled) {
-            background: #09e;
-        }
-
-        .generate-btn:disabled {
-            background: #444;
-            color: #666;
-            cursor: not-allowed;
-        }
-
-        .key-display {
-            display: none;
-            background: #0a2a0a;
-            border: 1px solid #0f0;
-            border-radius: 4px;
-            padding: 15px;
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .key-display.show {
-            display: block;
-        }
-
-        .key-display h3 {
-            color: #0f0;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .key-value {
-            background: #000;
-            padding: 12px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 14px;
-            color: #0f0;
-            word-break: break-all;
-            margin-bottom: 10px;
-        }
-
-        .key-info {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 10px;
-        }
-
-        .key-timer {
-            color: #ff0;
-            font-weight: bold;
-        }
-
-        .copy-btn {
-            padding: 8px 20px;
-            background: #0f0;
-            color: #000;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .copy-btn:hover {
-            background: #0c0;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #333;
-            margin-top: 20px;
-        }
-
-        .discord-credit {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #36393f;
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid #5865F2;
-        }
-
-        .discord-credit i {
-            color: #5865F2;
-            font-size: 18px;
-        }
-
-        .discord-credit .username {
-            color: #5865F2;
-            font-weight: bold;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: #222;
-            border: 1px solid #333;
-            color: #888;
-            cursor: pointer;
-            font-size: 12px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .tab-btn:hover {
-            background: #2a2a2a;
-        }
-
-        .tab-btn.active {
-            background: #1a1a1a;
-            color: #0af;
-            border-color: #0af;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .script-box {
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 4px;
-            padding: 12px;
-            font-family: monospace;
-            font-size: 11px;
-            color: #0f0;
-            max-height: 250px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        .copy-script-btn {
-            margin-top: 10px;
-            padding: 8px 16px;
-            background: #333;
-            color: #fff;
-            border: 1px solid #555;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .copy-script-btn:hover {
-            background: #444;
-        }
-
-        .info-box {
-            background: #1a1a2e;
-            border-left: 3px solid #0af;
-            padding: 10px;
-            font-size: 12px;
-            color: #aaa;
-        }
-
-        .step {
-            background: #222;
-            border-radius: 4px;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-
-        .step-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
-        }
-
-        .step-title {
-            font-weight: bold;
-            font-size: 13px;
-        }
-
-        .step p {
-            color: #888;
-            font-size: 12px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-
-        <div class="header">
-            <h1><i class="fas fa-key"></i> Key Generator</h1>
-            <p style="color:#888;font-size:12px;">Groq AI Script Key System</p>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('generator')">
-                <i class="fas fa-key"></i> Get Key
-            </button>
-            <button class="tab-btn" onclick="showTab('script')">
-                <i class="fas fa-code"></i> Script
-            </button>
-            <button class="tab-btn" onclick="showTab('help')">
-                <i class="fas fa-question-circle"></i> Help
-            </button>
-        </div>
-
-        <div class="tab-content active" id="tab-generator">
-
-            <div class="card">
-                <div class="card-title">
-                    <span class="step-number">1</span>
-                    Complete Captcha
-                </div>
-                <div class="captcha-box">
-                    <div class="captcha-question" id="captcha-question">Loading...</div>
-                    <input type="text" class="captcha-input" id="captcha-input" placeholder="?">
-                    <button class="btn" id="verify-btn" onclick="verifyCaptcha()">Verify</button>
-                    <div class="captcha-status" id="captcha-status"></div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    <span class="step-number">2</span>
-                    Enter Groq API Key
-                </div>
-                <div class="input-group">
-                    <label>Your Groq API Key</label>
-                    <input type="password" id="api-key-input" placeholder="gsk_xxxxxxxxxx">
-                    <small>Get free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a></small>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    <span class="step-number">3</span>
-                    Generate Key
-                </div>
-                <button class="generate-btn" id="generate-btn" onclick="generateKey()" disabled>
-                    <i class="fas fa-lock"></i> Generate Key
-                </button>
-                
-                <div class="key-display" id="key-display">
-                    <h3><i class="fas fa-check-circle"></i> Your Key</h3>
-                    <div class="key-value" id="key-value">XXXX-XXXX-XXXX-XXXX</div>
-                    <div class="key-info">
-                        Expires in <span class="key-timer" id="key-timer">00:00:00</span>
-                    </div>
-                    <button class="copy-btn" onclick="copyKey()">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="tab-content" id="tab-script">
-            <div class="card">
-                <div class="card-title">
-                    <i class="fas fa-code"></i> Roblox Script
-                </div>
-                <p style="color:#888;font-size:12px;margin-bottom:10px;">Copy and paste in your executor</p>
-                <div class="script-box" id="roblox-script">loadstring(game:HttpGet("https://raw.githubusercontent.com/userahua/userahua.github.io/main/loader.lua"))()</div>
-                <button class="copy-script-btn" onclick="copyScript()">
-                    <i class="fas fa-copy"></i> Copy Script
-                </button>
-            </div>
-
-            <div class="info-box">
-                <i class="fas fa-info-circle"></i> This loads the main script from GitHub
-            </div>
-        </div>
-
-        <div class="tab-content" id="tab-help">
-            <div class="card">
-                <div class="card-title">
-                    <i class="fas fa-question-circle"></i> How To Use
-                </div>
-                
-                <div class="step">
-                    <div class="step-header">
-                        <span class="step-number">1</span>
-                        <span class="step-title">Get Groq API Key</span>
-                    </div>
-                    <p>Go to console.groq.com and create free API key</p>
-                </div>
-
-                <div class="step">
-                    <div class="step-header">
-                        <span class="step-number">2</span>
-                        <span class="step-title">Complete Captcha</span>
-                    </div>
-                    <p>Solve the math problem</p>
-                </div>
-
-                <div class="step">
-                    <div class="step-header">
-                        <span class="step-number">3</span>
-                        <span class="step-title">Generate and Copy Key</span>
-                    </div>
-                    <p>Enter API key and generate your script key</p>
-                </div>
-
-                <div class="step">
-                    <div class="step-header">
-                        <span class="step-number">4</span>
-                        <span class="step-title">Run Script</span>
-                    </div>
-                    <p>Copy script from Script tab and run in Roblox executor</p>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <i class="fas fa-clock"></i> Keys expire in 1-4 hours
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="discord-credit">
-                <i class="fab fa-discord"></i>
-                <span>Created by <span class="username">dashalostacc</span></span>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        var captchaAnswer = 0;
-        var captchaSolved = false;
-        var generatedKey = "";
-        var keyExpireTime = 0;
-        var timerInterval = null;
-
-        window.onload = function() {
-            generateCaptcha();
-        };
-
-        function showTab(tabName) {
-            var contents = document.querySelectorAll('.tab-content');
-            var buttons = document.querySelectorAll('.tab-btn');
-            
-            for (var i = 0; i < contents.length; i++) {
-                contents[i].classList.remove('active');
-            }
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
-            
-            document.getElementById('tab-' + tabName).classList.add('active');
-            event.target.closest('.tab-btn').classList.add('active');
-        }
-
-        function generateCaptcha() {
-            var num1 = Math.floor(Math.random() * 15) + 1;
-            var num2 = Math.floor(Math.random() * 15) + 1;
-            var op = Math.floor(Math.random() * 2);
-            
-            if (op === 0) {
-                captchaAnswer = num1 + num2;
-                document.getElementById('captcha-question').textContent = num1 + " + " + num2 + " = ?";
-            } else {
-                if (num1 < num2) {
-                    var temp = num1;
-                    num1 = num2;
-                    num2 = temp;
-                }
-                captchaAnswer = num1 - num2;
-                document.getElementById('captcha-question').textContent = num1 + " - " + num2 + " = ?";
-            }
-            
-            document.getElementById('captcha-input').value = '';
-            document.getElementById('captcha-status').textContent = '';
-            document.getElementById('captcha-status').className = 'captcha-status';
-        }
-
-        function verifyCaptcha() {
-            var input = document.getElementById('captcha-input').value;
-            var status = document.getElementById('captcha-status');
-            
-            if (parseInt(input) === captchaAnswer) {
-                captchaSolved = true;
-                status.textContent = 'Verified';
-                status.className = 'captcha-status success';
-                document.getElementById('verify-btn').disabled = true;
-                document.getElementById('verify-btn').textContent = 'Done';
-                document.getElementById('generate-btn').disabled = false;
-            } else {
-                status.textContent = 'Wrong answer';
-                status.className = 'captcha-status error';
-                generateCaptcha();
-            }
-        }
-
-        function generateKey() {
-            if (!captchaSolved) {
-                alert('Complete captcha first');
-                return;
-            }
-
-            var apiKey = document.getElementById('api-key-input').value;
-            if (!apiKey || apiKey.length < 10) {
-                alert('Enter valid Groq API key');
-                return;
-            }
-
-            var timestamp = Math.floor(Date.now() / 1000);
-            var random = generateRandomString(4);
-            var hash = generateHash(timestamp);
-            
-            generatedKey = "GROQ-" + timestamp + "-" + random + "-" + hash;
-            
-            var expireHours = Math.floor(Math.random() * 4) + 1;
-            keyExpireTime = timestamp + (expireHours * 3600);
-
-            document.getElementById('key-value').textContent = generatedKey;
-            document.getElementById('key-display').classList.add('show');
-
-            startTimer();
-
-            localStorage.setItem('groq_key', generatedKey);
-            localStorage.setItem('groq_api', apiKey);
-            localStorage.setItem('groq_expire', keyExpireTime.toString());
-        }
-
-        function generateRandomString(length) {
-            var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            var result = '';
-            for (var i = 0; i < length; i++) {
+            for (var i = 0; i < 8; i++) {
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return result;
         }
 
-        function generateHash(timestamp) {
-            var reversed = (timestamp + 12345).toString().split('').reverse().join('');
-            return reversed.substring(0, 4).toUpperCase();
-        }
-
-        function startTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
+        function toBase64(text) {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+            var result = "";
+            var pad = "";
+            var padCount = text.length % 3;
+            
+            if (padCount > 0) {
+                for (; padCount < 3; padCount++) {
+                    pad += "=";
+                    text += "\0";
+                }
             }
             
-            timerInterval = setInterval(function() {
-                var now = Math.floor(Date.now() / 1000);
-                var remaining = keyExpireTime - now;
-                
-                if (remaining <= 0) {
-                    document.getElementById('key-timer').textContent = 'EXPIRED';
-                    document.getElementById('key-timer').style.color = '#f44';
-                    clearInterval(timerInterval);
-                    return;
+            for (var i = 0; i < text.length; i += 3) {
+                var n = (text.charCodeAt(i) << 16) | (text.charCodeAt(i + 1) << 8) | text.charCodeAt(i + 2);
+                result += chars.charAt((n >> 18) & 63);
+                result += chars.charAt((n >> 12) & 63);
+                result += chars.charAt((n >> 6) & 63);
+                result += chars.charAt(n & 63);
+            }
+            
+            return result.substring(0, result.length - pad.length) + pad;
+        }
+
+        function toBytes(text) {
+            var result = "";
+            for (var i = 0; i < text.length; i++) {
+                result += "\\" + text.charCodeAt(i);
+            }
+            return result;
+        }
+
+        function toHex(text) {
+            var result = "";
+            for (var i = 0; i < text.length; i++) {
+                var h = text.charCodeAt(i).toString(16);
+                if (h.length < 2) h = "0" + h;
+                result += "\\x" + h;
+            }
+            return result;
+        }
+
+        function compress(text) {
+            var lines = text.split('\n');
+            var clean = [];
+            
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i].trim();
+                if (line !== "" && line.substring(0, 2) !== "--") {
+                    clean.push(line);
                 }
-                
-                var hours = Math.floor(remaining / 3600);
-                var minutes = Math.floor((remaining % 3600) / 60);
-                var seconds = remaining % 60;
-                
-                var timeStr = 
-                    (hours < 10 ? '0' : '') + hours + ':' +
-                    (minutes < 10 ? '0' : '') + minutes + ':' +
-                    (seconds < 10 ? '0' : '') + seconds;
-                
-                document.getElementById('key-timer').textContent = timeStr;
-            }, 1000);
+            }
+            
+            return clean.join(' ');
         }
 
-        function copyKey() {
-            navigator.clipboard.writeText(generatedKey);
-            alert('Key copied');
+        function makeEncoded(script, obfuscate) {
+            var id = makeId();
+            var data = toBase64(script);
+            
+            if (obfuscate) {
+                var out = 'local _' + id + '=(function()';
+                out += 'local d="' + data + '"';
+                out += 'local c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"';
+                out += 'local t={}for i=1,64 do t[c:sub(i,i)]=i-1 end ';
+                out += 'd=d:gsub("=","")local o=""';
+                out += 'for i=1,#d,4 do ';
+                out += 'local a,b,c,e=t[d:sub(i,i)]or 0,t[d:sub(i+1,i+1)]or 0,t[d:sub(i+2,i+2)]or 0,t[d:sub(i+3,i+3)]or 0 ';
+                out += 'local n=(a*262144)+(b*4096)+(c*64)+e ';
+                out += 'o=o..string.char(math.floor(n/65536)%256,math.floor(n/256)%256,n%256)end ';
+                out += 'return o:gsub("%z+$","")end)()';
+                out += 'loadstring(_' + id + ')()';
+                return { output: out, id: id };
+            } else {
+                var out = 'loadstring((function()local d="' + data + '"';
+                out += 'local b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"';
+                out += 'local t={}for i=1,64 do t[b:sub(i,i)]=i-1 end ';
+                out += 'd=d:gsub("=","")local o=""';
+                out += 'for i=1,#d,4 do local a,b,c,e=t[d:sub(i,i)]or 0,t[d:sub(i+1,i+1)]or 0,t[d:sub(i+2,i+2)]or 0,t[d:sub(i+3,i+3)]or 0 ';
+                out += 'local n=(a*262144)+(b*4096)+(c*64)+e ';
+                out += 'o=o..string.char(math.floor(n/65536)%256,math.floor(n/256)%256,n%256)end ';
+                out += 'return o:gsub("%z+$","")end)())()';
+                return { output: out, id: id };
+            }
         }
 
-        function copyScript() {
-            var script = document.getElementById('roblox-script').textContent;
-            navigator.clipboard.writeText(script);
-            alert('Script copied');
+        function makeByte(script, obfuscate) {
+            var id = makeId();
+            var bytes = toBytes(script);
+            
+            if (obfuscate) {
+                var key = Math.floor(Math.random() * 20) + 5;
+                var shifted = "";
+                for (var i = 0; i < script.length; i++) {
+                    shifted += "\\" + (script.charCodeAt(i) + key);
+                }
+                var out = 'local _' + id + '=function(s,k)local r=""for i=1,#s do r=r..string.char(s:byte(i)-k)end return r end ';
+                out += 'loadstring(_' + id + '("' + shifted + '",' + key + '))()';
+                return { output: out, id: id };
+            } else {
+                var out = 'loadstring("' + bytes + '")()';
+                return { output: out, id: id };
+            }
+        }
+
+        function makeHex(script, obfuscate) {
+            var id = makeId();
+            var hex = toHex(script);
+            
+            if (obfuscate) {
+                var key = Math.floor(Math.random() * 15) + 3;
+                var shifted = "";
+                for (var i = 0; i < script.length; i++) {
+                    var h = (script.charCodeAt(i) + key).toString(16);
+                    if (h.length < 2) h = "0" + h;
+                    shifted += "\\x" + h;
+                }
+                var out = 'local _' + id + '=function(s,k)local r=""for i=1,#s do r=r..string.char(s:byte(i)-k)end return r end ';
+                out += 'loadstring(_' + id + '("' + shifted + '",' + key + '))()';
+                return { output: out, id: id };
+            } else {
+                var out = 'loadstring("' + hex + '")()';
+                return { output: out, id: id };
+            }
+        }
+
+        function createLoadstring() {
+            var script = document.getElementById('scriptInput').value;
+            
+            if (script.trim() === "") {
+                alert("Enter Lua code first");
+                return;
+            }
+            
+            var obfuscate = document.getElementById('checkObfuscate').checked;
+            var shouldCompress = document.getElementById('checkCompress').checked;
+            
+            if (shouldCompress) {
+                script = compress(script);
+            }
+            
+            var result;
+            
+            if (pickedMethod === "encoded") {
+                result = makeEncoded(script, obfuscate);
+            } else if (pickedMethod === "byte") {
+                result = makeByte(script, obfuscate);
+            } else if (pickedMethod === "hex") {
+                result = makeHex(script, obfuscate);
+            }
+            
+            lastOutput = result.output;
+            
+            document.getElementById('finalOutput').textContent = result.output;
+            document.getElementById('infoSize').textContent = result.output.length + " bytes";
+            document.getElementById('infoId').textContent = "ID: " + result.id;
+            document.getElementById('outputArea').classList.add('visible');
+        }
+
+        function createFromUrl() {
+            var url = document.getElementById('rawUrlInput').value.trim();
+            
+            if (url === "") {
+                alert("Enter a raw URL first");
+                return;
+            }
+            
+            if (url.indexOf("http") !== 0) {
+                alert("URL must start with http or https");
+                return;
+            }
+            
+            lastUrlOutput = 'loadstring(game:HttpGet("' + url + '"))()';
+            
+            document.getElementById('urlLoadstringOutput').textContent = lastUrlOutput;
+            document.getElementById('urlOutputArea').classList.add('visible');
+        }
+
+        function copyResult() {
+            navigator.clipboard.writeText(lastOutput);
+            alert("Copied");
+        }
+
+        function copyUrlResult() {
+            navigator.clipboard.writeText(lastUrlOutput);
+            alert("Copied");
         }
     </script>
 
 </body>
-                        </html>
+    </html>
