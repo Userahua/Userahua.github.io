@@ -1,846 +1,519 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3 to MIDI Converter</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1c1c1c;
-            color: #e0e0e0;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        /* Header - Pastebin Style */
-        .header {
-            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
-            padding: 15px 20px;
-            border-bottom: 3px solid #5865F2;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo i {
-            color: #5865F2;
-            font-size: 1.8rem;
-        }
-
-        .logo h1 {
-            font-size: 1.3rem;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .logo span {
-            color: #5865F2;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Info Banner */
-        .info-banner {
-            background: #2a2a2a;
-            border-left: 4px solid #5865F2;
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .info-banner h2 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: #fff;
-        }
-
-        .info-banner p {
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        /* Upload Section */
-        .upload-section {
-            background: #2d2d2d;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .section-header {
-            background: #363636;
-            padding: 12px 20px;
-            border-bottom: 1px solid #444;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-header i {
-            color: #5865F2;
-        }
-
-        .section-header h3 {
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .section-body {
-            padding: 25px;
-        }
-
-        /* Drop Zone */
-        .drop-zone {
-            border: 2px dashed #555;
-            border-radius: 10px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #252525;
-        }
-
-        .drop-zone:hover {
-            border-color: #5865F2;
-            background: #2a2a3a;
-        }
-
-        .drop-zone.dragover {
-            border-color: #5865F2;
-            background: #2a2a3a;
-            transform: scale(1.02);
-        }
-
-        .drop-zone i {
-            font-size: 3rem;
-            color: #5865F2;
-            margin-bottom: 15px;
-        }
-
-        .drop-zone h4 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-
-        .drop-zone p {
-            color: #888;
-            font-size: 0.85rem;
-        }
-
-        .drop-zone input {
-            display: none;
-        }
-
-        /* File Info */
-        .file-info {
-            display: none;
-            background: #252525;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .file-info.show {
-            display: flex;
-        }
-
-        .file-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #5865F2, #4752c4);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .file-icon i {
-            color: #fff;
-            font-size: 1.3rem;
-        }
-
-        .file-details {
-            flex: 1;
-        }
-
-        .file-details h4 {
-            font-size: 0.95rem;
-            color: #fff;
-            margin-bottom: 3px;
-            word-break: break-all;
-        }
-
-        .file-details p {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .remove-file {
-            background: none;
-            border: none;
-            color: #ff5555;
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 5px;
-            transition: transform 0.2s;
-        }
-
-        .remove-file:hover {
-            transform: scale(1.2);
-        }
-
-        /* Settings */
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .setting-item {
-            background: #252525;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .setting-item label {
-            display: block;
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-bottom: 8px;
-        }
-
-        .setting-item select,
-        .setting-item input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            background: #1c1c1c;
-            border: 1px solid #444;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 0.9rem;
-        }
-
-        .setting-item select:focus,
-        .setting-item input:focus {
-            outline: none;
-            border-color: #5865F2;
-        }
-
-        /* Convert Button */
-        .convert-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #5865F2, #4752c4);
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .convert-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(88, 101, 242, 0.4);
-        }
-
-        .convert-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-        }
-
-        /* Progress Section */
-        .progress-section {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .progress-section.show {
-            display: block;
-        }
-
-        .progress-bar-container {
-            background: #252525;
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .progress-header span {
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: #1c1c1c;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #5865F2, #7289da);
-            border-radius: 10px;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .progress-status {
-            margin-top: 10px;
-            font-size: 0.85rem;
-            color: #888;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .progress-status i {
-            color: #5865F2;
-        }
-
-        /* Result Section */
-        .result-section {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .result-section.show {
-            display: block;
-        }
-
-        .result-card {
-            background: linear-gradient(135deg, #1a3a1a, #1c1c1c);
-            border: 1px solid #2a5a2a;
-            border-radius: 10px;
-            padding: 25px;
-            text-align: center;
-        }
-
-        .result-card i {
-            font-size: 3rem;
-            color: #4ade80;
-            margin-bottom: 15px;
-        }
-
-        .result-card h3 {
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .result-card p {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 30px;
-            background: #4ade80;
-            color: #1c1c1c;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .download-btn:hover {
-            background: #22c55e;
-            transform: translateY(-2px);
-        }
-
-        /* Footer Credit */
-        .footer {
-            background: #2d2d2d;
-            margin-top: 40px;
-            padding: 20px;
-            border-top: 1px solid #444;
-        }
-
-        .footer-content {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .discord-credit {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #36393f;
-            padding: 10px 20px;
-            border-radius: 25px;
-            border: 1px solid #5865F2;
-        }
-
-        .discord-credit i {
-            font-size: 1.4rem;
-            color: #5865F2;
-        }
-
-        .discord-credit span {
-            color: #fff;
-            font-size: 0.95rem;
-        }
-
-        .discord-credit .username {
-            color: #5865F2;
-            font-weight: 600;
-        }
-
-        /* Features */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .feature-card {
-            background: #2d2d2d;
-            padding: 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .feature-card i {
-            font-size: 1.5rem;
-            color: #5865F2;
-        }
-
-        .feature-card h4 {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-            color: #fff;
-        }
-
-        .feature-card p {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .header-content {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .logo h1 {
-                font-size: 1.1rem;
-            }
-
-            .drop-zone {
-                padding: 30px 15px;
-            }
-
-            .drop-zone i {
-                font-size: 2.5rem;
-            }
-
-            .file-info {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .discord-credit {
-                padding: 8px 15px;
-            }
-        }
-
-        /* Loading Spinner */
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #fff;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RetroCode Runner 2002</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Verdana&display=swap');
+
+:root {
+    --bg-color: #c0c0c0;
+    --dark-border: #404040;
+    --light-border: #ffffff;
+    --title-blue: #000080;
+    --text-color: #000000;
+}
+
+body {
+    background-color: #008080;
+    font-family: 'Verdana', sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.retro-window {
+    background-color: var(--bg-color);
+    border-top: 2px solid var(--light-border);
+    border-left: 2px solid var(--light-border);
+    border-right: 2px solid var(--dark-border);
+    border-bottom: 2px solid var(--dark-border);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    padding: 4px 8px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.title-controls button {
+    background: #c0c0c0;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    line-height: 10px;
+    padding: 0;
+    cursor: pointer;
+    margin-left: 2px;
+}
+
+.menu-bar {
+    display: flex;
+    gap: 15px;
+    padding: 4px 10px;
+    border-bottom: 1px solid #808080;
+    font-size: 12px;
+}
+
+.menu-item {
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    text-decoration: underline;
+    color: var(--title-blue);
+}
+
+.main-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.tab-nav {
+    display: flex;
+    gap: 5px;
+    border-bottom: 2px solid white;
+    margin-bottom: 10px;
+}
+
+.tab-btn {
+    padding: 5px 15px;
+    background: #c0c0c0;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+    font-family: 'Verdana', sans-serif;
+    font-size: 12px;
+    margin-bottom: -2px;
+    position: relative;
+    z-index: 1;
+}
+
+.tab-btn.active {
+    background: #e0e0e0;
+    border-bottom: 2px solid #e0e0e0;
+    z-index: 2;
+    font-weight: bold;
+}
+
+.workspace {
+    display: none;
+    background: #e0e0e0;
+    border: 2px inset white;
+    padding: 10px;
+    min-height: 400px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.workspace.active {
+    display: flex;
+}
+
+.editor-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #444;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    background-color: white;
+    border: 2px inset #dfdfdf;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.retro-btn {
+    background: #c0c0c0;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    padding: 5px 20px;
+    font-family: 'Verdana', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    color: black;
+}
+
+.retro-btn:active {
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: translate(1px, 1px);
+}
+
+.output-area {
+    margin-top: 10px;
+    border: 2px inset white;
+    background: white;
+    flex: 1;
+    min-height: 150px;
+    overflow: auto;
+    position: relative;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+}
+
+.console-output {
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    white-space: pre-wrap;
+    color: #000;
+}
+
+.log-entry {
+    margin-bottom: 4px;
+    border-bottom: 1px dotted #ccc;
+}
+
+.log-error {
+    color: #800000;
+    font-weight: bold;
+    background: #ffcccc;
+}
+
+.log-info {
+    color: #000080;
+}
+
+.beta-tag {
+    background: #ff0000;
+    color: white;
+    font-size: 10px;
+    padding: 1px 4px;
+    margin-left: 5px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.footer {
+    margin-top: 15px;
+    padding: 10px;
+    border-top: 1px solid #808080;
+    text-align: center;
+    font-size: 11px;
+    color: #444;
+    background: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.discord-icon {
+    width: 16px;
+    height: 16px;
+    fill: #7289da;
+}
+
+h1 {
+    font-size: 16px;
+    margin: 0;
+    color: white;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.pixel-icon {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+}
+</style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <i class="fas fa-music"></i>
-                <h1>MP3 to <span>MIDI</span> Converter</h1>
-            </div>
+<div class="retro-window">
+    <div class="title-bar">
+        <span>RetroCode Runner - 2002 Edition</span>
+        <div class="title-controls">
+            <button>_</button>
+            <button>X</button>
         </div>
-    </header>
+    </div>
+    
+    <div class="menu-bar">
+        <span class="menu-item">File</span>
+        <span class="menu-item">Edit</span>
+        <span class="menu-item">View</span>
+        <span class="menu-item">Help</span>
+    </div>
 
-    <!-- Main Container -->
-    <main class="container">
-
-        <!-- Info Banner -->
-        <div class="info-banner">
-            <h2><i class="fas fa-info-circle"></i> Free Online Converter</h2>
-            <p>Convert your MP3 audio files to MIDI format. Works on mobile and desktop.</p>
-        </div>
-
-        <!-- Features -->
-        <div class="features">
-            <div class="feature-card">
-                <i class="fas fa-bolt"></i>
-                <div>
-                    <h4>Fast Conversion</h4>
-                    <p>Quick processing with optimized algorithms</p>
-                </div>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-shield-alt"></i>
-                <div>
-                    <h4>Secure & Private</h4>
-                    <p>Files are processed locally when possible</p>
-                </div>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-mobile-alt"></i>
-                <div>
-                    <h4>Mobile Friendly</h4>
-                    <p>Works perfectly on any device</p>
-                </div>
-            </div>
+    <div class="main-content">
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('html')">HTML Runner</button>
+            <button class="tab-btn" onclick="switchTab('js')">JS Runner</button>
+            <button class="tab-btn" onclick="switchTab('discord')">Discord.js (Beta) <span class="beta-tag">BETA</span></button>
         </div>
 
-        <!-- Upload Section -->
-        <div class="upload-section">
-            <div class="section-header">
-                <i class="fas fa-upload"></i>
-                <h3>Upload MP3 File</h3>
-            </div>
-            <div class="section-body">
-                <div class="drop-zone" id="dropZone">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h4>Drag & Drop your MP3 file here</h4>
-                    <p>or click to browse files (Max: 50MB)</p>
-                    <input type="file" id="fileInput" accept=".mp3,audio/mpeg">
-                </div>
-
-                <div class="file-info" id="fileInfo">
-                    <div class="file-icon">
-                        <i class="fas fa-file-audio"></i>
-                    </div>
-                    <div class="file-details">
-                        <h4 id="fileName">filename.mp3</h4>
-                        <p id="fileSize">0 MB</p>
-                    </div>
-                    <button class="remove-file" id="removeFile">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                <!-- Settings -->
-                <div class="settings-grid">
-                    <div class="setting-item">
-                        <label><i class="fas fa-sliders-h"></i> Output Quality</label>
-                        <select id="quality">
-                            <option value="high">High Quality</option>
-                            <option value="medium" selected>Medium Quality</option>
-                            <option value="low">Low Quality (Faster)</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <label><i class="fas fa-drum"></i> Tempo (BPM)</label>
-                        <input type="number" id="tempo" value="120" min="40" max="240">
-                    </div>
-                </div>
-
-                <button class="convert-btn" id="convertBtn" disabled>
-                    <i class="fas fa-sync-alt"></i>
-                    Convert to MIDI
-                </button>
-            </div>
-        </div>
-
-        <!-- Progress Section -->
-        <div class="progress-section" id="progressSection">
-            <div class="progress-bar-container">
-                <div class="progress-header">
-                    <span>Converting...</span>
-                    <span id="progressPercent">0%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-status" id="progressStatus">
-                    <i class="fas fa-cog fa-spin"></i>
-                    <span>Analyzing audio frequencies...</span>
+        <div id="tab-html" class="workspace active">
+            <div class="editor-area">
+                <label>HTML Source Code:</label>
+                <textarea id="html-code" placeholder="Type your HTML here..."><h1>Hello World</h1>
+<p style="color: blue; font-family: Verdana;">This is a test page in the retro runner.</p>
+<button onclick="alert('It works!')">Click Me</button></textarea>
+                
+                <div class="controls">
+                    <button class="retro-btn" onclick="clearOutput('html-output')">Clear</button>
+                    <button class="retro-btn" onclick="runHTML()">Run HTML</button>
                 </div>
             </div>
-        </div>
-
-        <!-- Result Section -->
-        <div class="result-section" id="resultSection">
-            <div class="result-card">
-                <i class="fas fa-check-circle"></i>
-                <h3>Conversion Complete!</h3>
-                <p>Your MIDI file is ready for download</p>
-                <button class="download-btn" id="downloadBtn">
-                    <i class="fas fa-download"></i>
-                    Download MIDI
-                </button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer with Discord Credit -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="discord-credit">
-                <i class="fab fa-discord"></i>
-                <span>Created by <span class="username">dashalostacc</span></span>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Elements
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const removeFile = document.getElementById('removeFile');
-        const convertBtn = document.getElementById('convertBtn');
-        const progressSection = document.getElementById('progressSection');
-        const progressFill = document.getElementById('progressFill');
-        const progressPercent = document.getElementById('progressPercent');
-        const progressStatus = document.getElementById('progressStatus');
-        const resultSection = document.getElementById('resultSection');
-        const downloadBtn = document.getElementById('downloadBtn');
-
-        let uploadedFile = null;
-
-        // Drop Zone Events
-        dropZone.addEventListener('click', () => fileInput.click());
-
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            const file = e.dataTransfer.files[0];
-            handleFile(file);
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            handleFile(file);
-        });
-
-        // Handle File
-        function handleFile(file) {
-            if (!file) return;
             
-            if (!file.type.includes('audio') && !file.name.endsWith('.mp3')) {
-                alert('Please upload an MP3 file');
-                return;
-            }
+            <div class="editor-area" style="margin-top: 10px;">
+                <label>Preview Window:</label>
+                <div class="output-area">
+                    <iframe id="html-output"></iframe>
+                </div>
+            </div>
+        </div>
 
-            if (file.size > 50 * 1024 * 1024) {
-                alert('File size must be less than 50MB');
-                return;
-            }
+        <div id="tab-js" class="workspace">
+            <div class="editor-area">
+                <label>JavaScript Code:</label>
+                <textarea id="js-code" placeholder="Type your JavaScript here...">console.log("System initializing...");
+console.log("Welcome to the JS runner.");
 
-            uploadedFile = file;
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-            fileInfo.classList.add('show');
-            convertBtn.disabled = false;
+function greet(name) {
+    return "Hello there, " + name + "!";
+}
+
+console.log(greet("User"));</textarea>
+                
+                <div class="controls">
+                    <button class="retro-btn" onclick="clearConsole('js-output')">Clear Log</button>
+                    <button class="retro-btn" onclick="runJS()">Execute JS</button>
+                </div>
+            </div>
+            
+            <div class="editor-area" style="margin-top: 10px;">
+                <label>Console Output:</label>
+                <div id="js-output" class="output-area console-output">
+                    <div class="log-entry log-info">Ready to execute code...</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-discord" class="workspace">
+            <div class="editor-area">
+                <label>Discord.js Script (Simulated Environment):</label>
+                <textarea id="discord-code" placeholder="const client = new Client(); ...">const client = new Client();
+
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on('messageCreate', message => {
+    if (message.content === '!ping') {
+        message.channel.send('Pong!');
+        console.log('Pong command sent!');
+    }
+});
+
+client.login('YOUR_TOKEN_HERE');</textarea>
+                
+                <div class="controls">
+                    <button class="retro-btn" onclick="clearConsole('discord-output')">Clear Log</button>
+                    <button class="retro-btn" onclick="runDiscord()">Connect Bot</button>
+                </div>
+            </div>
+            
+            <div class="editor-area" style="margin-top: 10px;">
+                <label>Bot Connection Status:</label>
+                <div id="discord-output" class="output-area console-output">
+                    <div class="log-entry log-info">Discord.js simulation loaded. Waiting for connection...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Created with <span style="color: red;">&hearts;</span> by dashalostacc 
+        <svg class="discord-icon" viewBox="0 0 24 24">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+        </svg>
+    </div>
+</div>
+
+<script>
+function switchTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.workspace').forEach(ws => ws.classList.remove('active'));
+    
+    event.target.classList.add('active');
+    document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+function runHTML() {
+    const code = document.getElementById('html-code').value;
+    const output = document.getElementById('html-output');
+    output.srcdoc = code;
+}
+
+function clearOutput(id) {
+    document.getElementById(id).srcdoc = '';
+}
+
+function logToConsole(elementId, message, type = 'normal') {
+    const consoleDiv = document.getElementById(elementId);
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    if (type === 'error') entry.classList.add('log-error');
+    if (type === 'info') entry.classList.add('log-info');
+    const timestamp = new Date().toLocaleTimeString();
+    entry.textContent = `[${timestamp}] ${message}`;
+    consoleDiv.appendChild(entry);
+    consoleDiv.scrollTop = consoleDiv.scrollHeight;
+}
+
+function clearConsole(id) {
+    document.getElementById(id).innerHTML = '<div class="log-entry log-info">Console cleared.</div>';
+}
+
+function runJS() {
+    const code = document.getElementById('js-code').value;
+    const outputId = 'js-output';
+    const originalLog = console.log;
+    
+    console.log = function(...args) {
+        logToConsole(outputId, args.join(' '));
+        originalLog.apply(console, args);
+    };
+
+    try {
+        logToConsole(outputId, 'Executing...', 'info');
+        new Function(code)();
+    } catch (error) {
+        logToConsole(outputId, error.toString(), 'error');
+    }
+
+    setTimeout(() => {
+        console.log = originalLog;
+    }, 100);
+}
+
+function runDiscord() {
+    const code = document.getElementById('discord-code').value;
+    const outputId = 'discord-output';
+    const originalLog = console.log;
+    
+    const mockMessage = {
+        content: '!ping',
+        channel: {
+            send: (msg) => {
+                logToConsole(outputId, `[Bot] Sent message: "${msg}"`);
+            }
+        },
+        author: {
+            username: 'TestUser'
+        }
+    };
+
+    const mockUser = {
+        tag: 'TestBot#1234'
+    };
+
+    class MockClient {
+        constructor() {
+            this.user = mockUser;
+            this.events = {};
         }
 
-        // Format File Size
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        on(event, callback) {
+            if (!this.events[event]) {
+                this.events[event] = [];
+            }
+            this.events[event].push(callback);
         }
 
-        // Remove File
-        removeFile.addEventListener('click', () => {
-            uploadedFile = null;
-            fileInput.value = '';
-            fileInfo.classList.remove('show');
-            convertBtn.disabled = true;
-            resultSection.classList.remove('show');
-        });
-
-        // Convert Button
-        convertBtn.addEventListener('click', () => {
-            if (!uploadedFile) return;
-            startConversion();
-        });
-
-        // Conversion Simulation
-        function startConversion() {
-            convertBtn.disabled = true;
-            convertBtn.innerHTML = '<span class="spinner"></span> Converting...';
-            progressSection.classList.add('show');
-            resultSection.classList.remove('show');
-
-            const statuses = [
-                'Analyzing audio frequencies...',
-                'Detecting pitch and notes...',
-                'Mapping to MIDI channels...',
-                'Generating MIDI data...',
-                'Finalizing conversion...'
-            ];
-
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress > 100) progress = 100;
-
-                progressFill.style.width = progress + '%';
-                progressPercent.textContent = Math.round(progress) + '%';
-
-                const statusIndex = Math.floor((progress / 100) * statuses.length);
-                progressStatus.innerHTML = `
-                    <i class="fas fa-cog fa-spin"></i>
-                    <span>${statuses[Math.min(statusIndex, statuses.length - 1)]}</span>
-                `;
-
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        conversionComplete();
-                    }, 500);
+        login(token) {
+            logToConsole(outputId, 'Connecting to Discord gateway...', 'info');
+            
+            setTimeout(() => {
+                logToConsole(outputId, `Logged in as ${this.user.tag}!`);
+                if (this.events['ready']) {
+                    this.events['ready'].forEach(cb => cb());
                 }
-            }, 300);
-        }
+                
+                setTimeout(() => {
+                    logToConsole(outputId, 'Received message: "!ping" from TestUser');
+                    if (this.events['messageCreate']) {
+                        this.events['messageCreate'].forEach(cb => cb(mockMessage));
+                    }
+                }, 2000);
 
-        // Conversion Complete
-        function conversionComplete() {
-            progressSection.classList.remove('show');
-            resultSection.classList.add('show');
-            convertBtn.disabled = false;
-            convertBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Convert to MIDI';
+            }, 1500);
         }
+    }
 
-        // Download Button (Demo)
-        downloadBtn.addEventListener('click', () => {
-            // Create demo MIDI file
-            const midiFileName = uploadedFile.name.replace('.mp3', '.mid');
-            
-            // Simple MIDI header for demo
-            const midiData = createDemoMidi();
-            const blob = new Blob([midiData], { type: 'audio/midi' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = midiFileName;
-            a.click();
-            
-            URL.revokeObjectURL(url);
-        });
+    const environment = {
+        console: {
+            log: (...args) => logToConsole(outputId, args.join(' '))
+        },
+        Client: MockClient
+    };
 
-        // Create Demo MIDI (Basic MIDI file structure)
-        function createDemoMidi() {
-            const tempo = parseInt(document.getElementById('tempo').value) || 120;
-            
-            // Basic MIDI file header
-            const header = new Uint8Array([
-                0x4D, 0x54, 0x68, 0x64, // MThd
-                0x00, 0x00, 0x00, 0x06, // Header length
-                0x00, 0x00,             // Format 0
-                0x00, 0x01,             // 1 track
-                0x00, 0x60,             // 96 ticks per quarter note
-            ]);
-            
-            // Basic track with a few notes
-            const track = new Uint8Array([
-                0x4D, 0x54, 0x72, 0x6B, // MTrk
-                0x00, 0x00, 0x00, 0x1C, // Track length
-                0x00, 0xFF, 0x51, 0x03, // Tempo
-                (500000 / tempo) >> 16 & 0xFF,
-                (500000 / tempo) >> 8 & 0xFF,
-                (500000 / tempo) & 0xFF,
-                0x00, 0x90, 0x3C, 0x64, // Note on C4
-                0x60, 0x80, 0x3C, 0x00, // Note off
-                0x00, 0x90, 0x40, 0x64, // Note on E4
-                0x60, 0x80, 0x40, 0x00, // Note off
-                0x00, 0xFF, 0x2F, 0x00  // End of track
-            ]);
-            
-            const midi = new Uint8Array(header.length + track.length);
-            midi.set(header);
-            midi.set(track, header.length);
-            
-            return midi;
-        }
-    </script>
+    try {
+        logToConsole(outputId, 'Initializing Bot script...', 'info');
+        const runBot = new Function('Client', 'console', code);
+        runBot(MockClient, environment.console);
+    } catch (error) {
+        logToConsole(outputId, `Bot Error: ${error.message}`, 'error');
+    }
+}
+</script>
 
 </body>
-  </html>
+    </html>
