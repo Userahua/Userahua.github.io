@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loadstring Generator</title>
+    <title>Key System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,852 +14,783 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #0d0d0d;
-            color: #e0e0e0;
+            background: #050510;
+            color: #fff;
             min-height: 100vh;
-            padding: 15px;
+            overflow-x: hidden;
         }
 
-        .wrapper {
-            max-width: 650px;
-            margin: 0 auto;
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
         }
 
-        .top-section {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #222;
-            margin-bottom: 20px;
-        }
-
-        .top-section h1 {
-            font-size: 20px;
-            color: #22c55e;
+        .main-wrapper {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            padding: 20px;
         }
 
-        .top-section p {
-            color: #555;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .panel {
-            background: #141414;
-            border: 1px solid #252525;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
-
-        .panel-header {
-            background: #1a1a1a;
-            padding: 10px 15px;
-            border-bottom: 1px solid #252525;
-            font-size: 13px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .panel-header i {
-            color: #22c55e;
-        }
-
-        .panel-body {
-            padding: 15px;
-        }
-
-        .code-box {
+        .container {
             width: 100%;
-            height: 160px;
-            background: #0a0a0a;
-            border: 1px solid #2a2a2a;
-            border-radius: 4px;
-            padding: 10px;
-            font-family: Consolas, monospace;
-            font-size: 12px;
-            color: #22c55e;
-            resize: vertical;
+            max-width: 450px;
         }
 
-        .code-box:focus {
-            outline: none;
-            border-color: #22c55e;
+        .header-box {
+            text-align: center;
+            margin-bottom: 25px;
         }
 
-        .code-box::placeholder {
-            color: #333;
+        .header-box h1 {
+            font-size: 28px;
+            color: #00bfff;
+            text-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+            margin-bottom: 8px;
         }
 
-        .options-row {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-            flex-wrap: wrap;
+        .header-box p {
+            color: #4a90a4;
+            font-size: 13px;
         }
 
-        .option-item {
+        .version-badge {
+            display: inline-block;
+            background: rgba(0, 191, 255, 0.2);
+            border: 1px solid #00bfff;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            color: #00bfff;
+            margin-top: 8px;
+        }
+
+        .card {
+            background: rgba(10, 25, 47, 0.85);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: rgba(0, 100, 150, 0.3);
+            padding: 12px 18px;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+            font-size: 14px;
+            font-weight: bold;
+            color: #00bfff;
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            color: #777;
+            gap: 8px;
         }
 
-        .option-item input {
-            accent-color: #22c55e;
+        .card-body {
+            padding: 18px;
         }
 
-        .method-item {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 4px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
+        .difficulty-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .difficulty-item {
+            background: rgba(0, 50, 80, 0.4);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .method-item:hover {
-            border-color: #333;
+        .difficulty-item:hover {
+            border-color: #00bfff;
+            background: rgba(0, 80, 120, 0.4);
         }
 
-        .method-item.picked {
-            border-color: #22c55e;
-            background: #0a1a0a;
+        .difficulty-item.selected {
+            border-color: #00bfff;
+            background: rgba(0, 100, 150, 0.5);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
         }
 
-        .method-title {
-            font-size: 12px;
+        .difficulty-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .difficulty-name {
             font-weight: bold;
+            font-size: 14px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .method-title i {
-            color: #22c55e;
+        .difficulty-name.easy {
+            color: #4ade80;
         }
 
-        .method-desc {
-            font-size: 10px;
-            color: #555;
-            margin-top: 3px;
+        .difficulty-name.medium {
+            color: #fbbf24;
         }
 
-        .main-button {
-            width: 100%;
-            padding: 12px;
-            background: #22c55e;
-            color: #000;
-            border: none;
+        .difficulty-name.hard {
+            color: #f87171;
+        }
+
+        .difficulty-time {
+            font-size: 12px;
+            color: #00bfff;
+            background: rgba(0, 191, 255, 0.15);
+            padding: 3px 8px;
             border-radius: 4px;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
 
-        .main-button:hover {
-            background: #1db954;
+        .difficulty-desc {
+            font-size: 11px;
+            color: #6b8a9a;
         }
 
-        .main-button:disabled {
-            background: #333;
-            color: #555;
-            cursor: not-allowed;
-        }
-
-        .output-area {
+        .captcha-area {
             display: none;
             margin-top: 15px;
         }
 
-        .output-area.visible {
+        .captcha-area.visible {
             display: block;
         }
 
-        .output-box {
-            background: #050505;
-            border: 1px solid #22c55e;
-            border-radius: 4px;
-            padding: 15px;
-        }
-
-        .output-title {
-            font-size: 12px;
-            font-weight: bold;
-            color: #22c55e;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .output-label {
-            font-size: 10px;
-            color: #555;
-            margin-bottom: 4px;
-        }
-
-        .output-content {
-            background: #000;
-            padding: 10px;
-            border-radius: 4px;
-            font-family: Consolas, monospace;
-            font-size: 11px;
-            color: #0f0;
-            word-break: break-all;
-            max-height: 100px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-        }
-
-        .output-content.yellow {
-            color: #ff0;
-        }
-
-        .output-info {
-            font-size: 10px;
-            color: #444;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .small-button {
-            padding: 8px 15px;
-            background: #1a1a1a;
-            color: #22c55e;
-            border: 1px solid #22c55e;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 10px;
-            margin-right: 5px;
-        }
-
-        .small-button:hover {
-            background: #22c55e;
-            color: #000;
-        }
-
-        .tab-row {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
-        }
-
-        .tab-item {
-            flex: 1;
-            padding: 10px;
-            background: #141414;
-            border: 1px solid #222;
-            color: #555;
-            cursor: pointer;
-            font-size: 11px;
-            text-align: center;
-            border-radius: 4px;
-        }
-
-        .tab-item:hover {
-            background: #1a1a1a;
-        }
-
-        .tab-item.selected {
-            background: #141414;
-            color: #22c55e;
-            border-color: #22c55e;
-        }
-
-        .tab-body {
-            display: none;
-        }
-
-        .tab-body.selected {
-            display: block;
-        }
-
-        .bottom-section {
-            text-align: center;
+        .captcha-box {
+            background: rgba(0, 40, 60, 0.6);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            border-radius: 8px;
             padding: 20px;
-            border-top: 1px solid #222;
+            text-align: center;
+        }
+
+        .captcha-question {
+            font-size: 22px;
+            color: #00bfff;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .captcha-input {
+            width: 120px;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            background: rgba(0, 20, 40, 0.8);
+            border: 1px solid rgba(0, 191, 255, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .captcha-input:focus {
+            outline: none;
+            border-color: #00bfff;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+        }
+
+        .verify-button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #0077b6, #00bfff);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .verify-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 191, 255, 0.4);
+        }
+
+        .verify-button:disabled {
+            background: #334;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .captcha-status {
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+        .captcha-status.success {
+            color: #4ade80;
+        }
+
+        .captcha-status.error {
+            color: #f87171;
+        }
+
+        .key-display {
+            display: none;
             margin-top: 20px;
         }
 
-        .credit-box {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #141428;
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid #5865F2;
+        .key-display.visible {
+            display: block;
         }
 
-        .credit-box i {
-            color: #5865F2;
-            font-size: 16px;
+        .key-box {
+            background: rgba(0, 60, 80, 0.5);
+            border: 1px solid #00bfff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
         }
 
-        .credit-box .name {
-            color: #5865F2;
-            font-weight: bold;
-        }
-
-        .info-text {
-            background: #0a1520;
-            border-left: 3px solid #0af;
-            padding: 10px;
-            font-size: 11px;
-            color: #888;
-            margin-bottom: 15px;
-        }
-
-        .step-item {
-            background: #1a1a1a;
-            border-radius: 4px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
-        }
-
-        .step-title {
-            font-weight: bold;
-            font-size: 12px;
-            margin-bottom: 4px;
+        .key-title {
+            font-size: 14px;
+            color: #4ade80;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
         }
 
-        .step-title i {
-            color: #22c55e;
+        .key-value {
+            background: rgba(0, 20, 40, 0.8);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            color: #00bfff;
+            word-break: break-all;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 191, 255, 0.3);
         }
 
-        .step-desc {
-            font-size: 11px;
-            color: #666;
-        }
-
-        .url-input-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .url-input {
-            flex: 1;
-            padding: 10px;
-            background: #0a0a0a;
-            border: 1px solid #333;
-            border-radius: 4px;
-            color: #fff;
+        .key-info {
             font-size: 12px;
+            color: #6b8a9a;
+            margin-bottom: 15px;
         }
 
-        .url-input:focus {
-            outline: none;
-            border-color: #22c55e;
+        .key-timer {
+            color: #fbbf24;
+            font-weight: bold;
         }
 
-        .hidden {
-            display: none;
+        .copy-button {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #0077b6, #00bfff);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .copy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+        }
+
+        .info-box {
+            background: rgba(0, 60, 100, 0.3);
+            border-left: 3px solid #00bfff;
+            padding: 12px 15px;
+            font-size: 12px;
+            color: #7aa8c0;
+            margin-top: 15px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .footer-box {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .credit-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(88, 101, 242, 0.2);
+            border: 1px solid #5865F2;
+            padding: 10px 18px;
+            border-radius: 25px;
+        }
+
+        .credit-badge i {
+            color: #5865F2;
+            font-size: 18px;
+        }
+
+        .credit-badge .name {
+            color: #5865F2;
+            font-weight: bold;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00bfff;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #4a6a7a;
+            margin-top: 3px;
+        }
+
+        @media (max-width: 480px) {
+            .header-box h1 {
+                font-size: 22px;
+            }
+
+            .captcha-input {
+                width: 80px;
+                padding: 10px;
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            .verify-button {
+                width: 100%;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
+    <canvas id="particleCanvas"></canvas>
 
-        <div class="top-section">
-            <h1><i class="fas fa-terminal"></i> Loadstring Generator</h1>
-            <p>Turn Lua scripts into loadstring format</p>
-        </div>
+    <div class="main-wrapper">
+        <div class="container">
 
-        <div class="tab-row">
-            <button class="tab-item selected" onclick="switchTab('create')">
-                <i class="fas fa-plus"></i> Create
-            </button>
-            <button class="tab-item" onclick="switchTab('rawurl')">
-                <i class="fas fa-link"></i> Raw URL
-            </button>
-            <button class="tab-item" onclick="switchTab('guide')">
-                <i class="fas fa-book"></i> Guide
-            </button>
-        </div>
+            <div class="header-box">
+                <h1><i class="fas fa-key"></i> Key System</h1>
+                <p>Generate your script access key</p>
+                <div class="version-badge">v2.1.0</div>
+            </div>
 
-        <div class="tab-body selected" id="body-create">
-
-            <div class="panel">
-                <div class="panel-header">
-                    <i class="fas fa-code"></i>
-                    Lua Script
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-shield-alt"></i>
+                    Select Difficulty
                 </div>
-                <div class="panel-body">
-                    <textarea class="code-box" id="scriptInput" placeholder="Paste your Lua code here"></textarea>
-                    <div class="options-row">
-                        <label class="option-item">
-                            <input type="checkbox" id="checkObfuscate" checked>
-                            Obfuscate
-                        </label>
-                        <label class="option-item">
-                            <input type="checkbox" id="checkCompress">
-                            Compress
-                        </label>
+                <div class="card-body">
+                    <div class="difficulty-grid">
+                        
+                        <div class="difficulty-item" onclick="selectDifficulty('easy')" id="diff-easy">
+                            <div class="difficulty-top">
+                                <div class="difficulty-name easy">
+                                    <i class="fas fa-leaf"></i>
+                                    Easy
+                                </div>
+                                <div class="difficulty-time">1 Hour</div>
+                            </div>
+                            <div class="difficulty-desc">Simple math problem</div>
+                        </div>
+
+                        <div class="difficulty-item" onclick="selectDifficulty('medium')" id="diff-medium">
+                            <div class="difficulty-top">
+                                <div class="difficulty-name medium">
+                                    <i class="fas fa-fire"></i>
+                                    Medium
+                                </div>
+                                <div class="difficulty-time">10 Hours</div>
+                            </div>
+                            <div class="difficulty-desc">Two step calculation</div>
+                        </div>
+
+                        <div class="difficulty-item" onclick="selectDifficulty('hard')" id="diff-hard">
+                            <div class="difficulty-top">
+                                <div class="difficulty-name hard">
+                                    <i class="fas fa-skull"></i>
+                                    Hard
+                                </div>
+                                <div class="difficulty-time">100 Hours</div>
+                            </div>
+                            <div class="difficulty-desc">Complex equation</div>
+                        </div>
+
                     </div>
+
+                    <div class="captcha-area" id="captchaArea">
+                        <div class="captcha-box">
+                            <div class="captcha-question" id="captchaQuestion">Loading...</div>
+                            <input type="text" class="captcha-input" id="captchaInput" placeholder="?">
+                            <button class="verify-button" onclick="verifyCaptcha()" id="verifyButton">Verify</button>
+                            <div class="captcha-status" id="captchaStatus"></div>
+                        </div>
+                    </div>
+
+                    <div class="key-display" id="keyDisplay">
+                        <div class="key-box">
+                            <div class="key-title">
+                                <i class="fas fa-check-circle"></i>
+                                Your Key
+                            </div>
+                            <div class="key-value" id="keyValue">XXXX-XXXX-XXXX-XXXX</div>
+                            <div class="key-info">
+                                Expires in <span class="key-timer" id="keyTimer">00:00:00</span>
+                            </div>
+                            <button class="copy-button" onclick="copyKey()">
+                                <i class="fas fa-copy"></i>
+                                Copy Key
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i>
+                        Harder captcha gives longer key duration. Keys are single use.
+                    </div>
+
                 </div>
             </div>
 
-            <div class="panel">
-                <div class="panel-header">
-                    <i class="fas fa-cog"></i>
-                    Method
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value" id="statKeys">0</div>
+                    <div class="stat-label">Keys Generated</div>
                 </div>
-                <div class="panel-body">
-                    
-                    <div class="method-item picked" onclick="pickMethod('encoded')" id="pick-encoded">
-                        <div class="method-title">
-                            <i class="fas fa-lock"></i>
-                            Encoded
-                        </div>
-                        <div class="method-desc">Base64 encoded with built-in decoder</div>
-                    </div>
-
-                    <div class="method-item" onclick="pickMethod('byte')" id="pick-byte">
-                        <div class="method-title">
-                            <i class="fas fa-hashtag"></i>
-                            Byte Format
-                        </div>
-                        <div class="method-desc">Converts to byte characters</div>
-                    </div>
-
-                    <div class="method-item" onclick="pickMethod('hex')" id="pick-hex">
-                        <div class="method-title">
-                            <i class="fas fa-fingerprint"></i>
-                            Hex Format
-                        </div>
-                        <div class="method-desc">Converts to hexadecimal</div>
-                    </div>
-
+                <div class="stat-item">
+                    <div class="stat-value" id="statOnline">0</div>
+                    <div class="stat-label">Online Users</div>
                 </div>
             </div>
 
-            <button class="main-button" onclick="createLoadstring()">
-                <i class="fas fa-bolt"></i>
-                Generate
-            </button>
-
-            <div class="output-area" id="outputArea">
-                <div class="output-box">
-                    <div class="output-title">
-                        <i class="fas fa-check-circle"></i>
-                        Generated
-                    </div>
-                    
-                    <div class="output-label">Loadstring</div>
-                    <div class="output-content" id="finalOutput"></div>
-                    
-                    <div class="output-info">
-                        <span id="infoSize">0 bytes</span>
-                        <span id="infoId">ID: ------</span>
-                    </div>
-
-                    <button class="small-button" onclick="copyResult()">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="tab-body" id="body-rawurl">
-
-            <div class="info-text">
-                <i class="fas fa-info-circle"></i>
-                Create a raw URL using GitHub Gist or Pastebin then generate loadstring from it
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">
-                    <i class="fas fa-link"></i>
-                    Create from Raw URL
-                </div>
-                <div class="panel-body">
-                    <div class="output-label">Paste your raw URL</div>
-                    <div class="url-input-row">
-                        <input type="text" class="url-input" id="rawUrlInput" placeholder="https://raw.githubusercontent.com/...">
-                        <button class="main-button" style="width:auto;padding:10px 15px;" onclick="createFromUrl()">
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-
-                    <div class="output-area" id="urlOutputArea" style="margin-top:15px;">
-                        <div class="output-label">Generated Loadstring</div>
-                        <div class="output-content yellow" id="urlLoadstringOutput"></div>
-                        <button class="small-button" onclick="copyUrlResult()">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    How to Get Raw URL
-                </div>
-                <div class="panel-body">
-                    
-                    <div class="step-item">
-                        <div class="step-title">
-                            <i class="fab fa-github"></i>
-                            GitHub Gist
-                        </div>
-                        <div class="step-desc">
-                            1. Go to gist.github.com<br>
-                            2. Paste your script<br>
-                            3. Click Create<br>
-                            4. Click Raw button<br>
-                            5. Copy the URL
-                        </div>
-                    </div>
-
-                    <div class="step-item">
-                        <div class="step-title">
-                            <i class="fas fa-paste"></i>
-                            Pastebin
-                        </div>
-                        <div class="step-desc">
-                            1. Go to pastebin.com<br>
-                            2. Paste your script<br>
-                            3. Click Create<br>
-                            4. Click Raw button<br>
-                            5. Copy the URL
-                        </div>
-                    </div>
-
-                    <div class="step-item">
-                        <div class="step-title">
-                            <i class="fab fa-github"></i>
-                            GitHub Repository
-                        </div>
-                        <div class="step-desc">
-                            1. Upload lua file to your repo<br>
-                            2. Click on the file<br>
-                            3. Click Raw button<br>
-                            4. Copy the URL
-                        </div>
-                    </div>
-
+            <div class="footer-box">
+                <div class="credit-badge">
+                    <i class="fab fa-discord"></i>
+                    <span>Made by <span class="name">dashalostacc</span></span>
                 </div>
             </div>
 
         </div>
-
-        <div class="tab-body" id="body-guide">
-
-            <div class="panel">
-                <div class="panel-header">
-                    <i class="fas fa-book"></i>
-                    How to Use
-                </div>
-                <div class="panel-body">
-                    
-                    <div class="step-item">
-                        <div class="step-title">
-                            <i class="fas fa-1"></i>
-                            Enter Script
-                        </div>
-                        <div class="step-desc">Paste your Lua code in the text box</div>
-                    </div>
-
-                    <div class="step-item">
-                        <div class="step-title">
-                            <i class="fas fa-2"></i>
-                            Pick Method
-                        </div>
-                        <div class="step-desc">Choose encoded, byte, or hex format</div>
-                    </div>
-
-                    <div class="step-item">
-                        <div class="step-title">
-                            <i class="fas fa-3"></i>
-                            Generate
-                        </div>
-                        <div class="step-desc">Click the generate button</div>
-                    </div>
-
-                    <div class="step-item">
-                        <div class="step-title">
-                            <i class="fas fa-4"></i>
-                            Copy and Use
-                        </div>
-                        <div class="step-desc">Copy the loadstring and run in executor</div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">
-                    <i class="fas fa-info-circle"></i>
-                    Methods Explained
-                </div>
-                <div class="panel-body" style="font-size:11px;color:#888;line-height:1.8;">
-                    <p><b style="color:#22c55e;">Encoded:</b> Uses base64. Good for most scripts.</p>
-                    <p><b style="color:#22c55e;">Byte:</b> Uses byte numbers. Harder to read.</p>
-                    <p><b style="color:#22c55e;">Hex:</b> Uses hex values. Very hard to read.</p>
-                    <p><b style="color:#22c55e;">Raw URL:</b> Uses external hosting. Best for large scripts.</p>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="bottom-section">
-            <div class="credit-box">
-                <i class="fab fa-discord"></i>
-                <span>Made by <span class="name">dashalostacc</span></span>
-            </div>
-        </div>
-
     </div>
 
     <script>
-        var pickedMethod = "encoded";
-        var lastOutput = "";
-        var lastUrlOutput = "";
+        var v1_canvas = document.getElementById('particleCanvas');
+        var v2_ctx = v1_canvas.getContext('2d');
+        var v3_particles = [];
+        var v4_particleCount = 80;
+        var v5_connectionDistance = 150;
+        var v6_mouseX = 0;
+        var v7_mouseY = 0;
 
-        function switchTab(name) {
-            var tabs = document.querySelectorAll('.tab-item');
-            var bodies = document.querySelectorAll('.tab-body');
-            
-            for (var i = 0; i < tabs.length; i++) {
-                tabs[i].classList.remove('selected');
-            }
-            for (var i = 0; i < bodies.length; i++) {
-                bodies[i].classList.remove('selected');
-            }
-            
-            event.target.closest('.tab-item').classList.add('selected');
-            document.getElementById('body-' + name).classList.add('selected');
+        function v8_resizeCanvas() {
+            v1_canvas.width = window.innerWidth;
+            v1_canvas.height = window.innerHeight;
         }
 
-        function pickMethod(name) {
-            pickedMethod = name;
-            
-            var items = document.querySelectorAll('.method-item');
+        function v9_createParticle() {
+            return {
+                x: Math.random() * v1_canvas.width,
+                y: Math.random() * v1_canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.5 + 0.3
+            };
+        }
+
+        function v10_initParticles() {
+            v3_particles = [];
+            for (var i = 0; i < v4_particleCount; i++) {
+                v3_particles.push(v9_createParticle());
+            }
+        }
+
+        function v11_drawParticles() {
+            v2_ctx.clearRect(0, 0, v1_canvas.width, v1_canvas.height);
+
+            for (var i = 0; i < v3_particles.length; i++) {
+                var p1 = v3_particles[i];
+
+                for (var j = i + 1; j < v3_particles.length; j++) {
+                    var p2 = v3_particles[j];
+                    var dx = p1.x - p2.x;
+                    var dy = p1.y - p2.y;
+                    var dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < v5_connectionDistance) {
+                        var opacity = (1 - dist / v5_connectionDistance) * 0.4;
+                        v2_ctx.beginPath();
+                        v2_ctx.strokeStyle = 'rgba(0, 191, 255, ' + opacity + ')';
+                        v2_ctx.lineWidth = 0.5;
+                        v2_ctx.moveTo(p1.x, p1.y);
+                        v2_ctx.lineTo(p2.x, p2.y);
+                        v2_ctx.stroke();
+                    }
+                }
+
+                v2_ctx.beginPath();
+                v2_ctx.arc(p1.x, p1.y, p1.size, 0, Math.PI * 2);
+                v2_ctx.fillStyle = 'rgba(0, 191, 255, ' + p1.opacity + ')';
+                v2_ctx.fill();
+
+                p1.x += p1.vx;
+                p1.y += p1.vy;
+
+                if (p1.x < 0 || p1.x > v1_canvas.width) p1.vx *= -1;
+                if (p1.y < 0 || p1.y > v1_canvas.height) p1.vy *= -1;
+            }
+
+            requestAnimationFrame(v11_drawParticles);
+        }
+
+        v8_resizeCanvas();
+        v10_initParticles();
+        v11_drawParticles();
+
+        window.addEventListener('resize', function() {
+            v8_resizeCanvas();
+            v10_initParticles();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            v6_mouseX = e.clientX;
+            v7_mouseY = e.clientY;
+        });
+
+        var v12_currentDifficulty = "";
+        var v13_captchaAnswer = 0;
+        var v14_captchaSolved = false;
+        var v15_generatedKey = "";
+        var v16_keyExpireTime = 0;
+        var v17_timerInterval = null;
+        var v18_keyCount = Math.floor(Math.random() * 5000) + 1000;
+        var v19_onlineCount = Math.floor(Math.random() * 200) + 50;
+
+        document.getElementById('statKeys').textContent = v18_keyCount;
+        document.getElementById('statOnline').textContent = v19_onlineCount;
+
+        setInterval(function() {
+            v19_onlineCount += Math.floor(Math.random() * 5) - 2;
+            if (v19_onlineCount < 30) v19_onlineCount = 30;
+            document.getElementById('statOnline').textContent = v19_onlineCount;
+        }, 3000);
+
+        function selectDifficulty(level) {
+            v12_currentDifficulty = level;
+            v14_captchaSolved = false;
+
+            var items = document.querySelectorAll('.difficulty-item');
             for (var i = 0; i < items.length; i++) {
-                items[i].classList.remove('picked');
+                items[i].classList.remove('selected');
             }
-            
-            document.getElementById('pick-' + name).classList.add('picked');
+
+            document.getElementById('diff-' + level).classList.add('selected');
+            document.getElementById('captchaArea').classList.add('visible');
+            document.getElementById('keyDisplay').classList.remove('visible');
+            document.getElementById('verifyButton').disabled = false;
+            document.getElementById('verifyButton').textContent = 'Verify';
+            document.getElementById('captchaStatus').textContent = '';
+
+            generateCaptcha(level);
         }
 
-        function makeId() {
-            var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+        function generateCaptcha(level) {
+            var question = "";
+            var answer = 0;
+
+            if (level === "easy") {
+                var a = Math.floor(Math.random() * 20) + 5;
+                var b = Math.floor(Math.random() * 20) + 5;
+                var op = Math.random() > 0.5;
+                if (op) {
+                    answer = a + b;
+                    question = a + " + " + b + " = ?";
+                } else {
+                    if (a < b) { var t = a; a = b; b = t; }
+                    answer = a - b;
+                    question = a + " - " + b + " = ?";
+                }
+            } else if (level === "medium") {
+                var a = Math.floor(Math.random() * 10) + 2;
+                var b = Math.floor(Math.random() * 10) + 2;
+                var c = Math.floor(Math.random() * 15) + 5;
+                answer = (a * b) + c;
+                question = "(" + a + " × " + b + ") + " + c + " = ?";
+            } else if (level === "hard") {
+                var a = Math.floor(Math.random() * 8) + 2;
+                var b = Math.floor(Math.random() * 8) + 2;
+                var c = Math.floor(Math.random() * 5) + 2;
+                var d = Math.floor(Math.random() * 10) + 5;
+                answer = (a * b * c) - d;
+                question = "(" + a + " × " + b + " × " + c + ") - " + d + " = ?";
+            }
+
+            v13_captchaAnswer = answer;
+            document.getElementById('captchaQuestion').textContent = question;
+            document.getElementById('captchaInput').value = '';
+        }
+
+        function verifyCaptcha() {
+            var input = document.getElementById('captchaInput').value;
+            var status = document.getElementById('captchaStatus');
+
+            if (parseInt(input) === v13_captchaAnswer) {
+                v14_captchaSolved = true;
+                status.textContent = 'Verified Successfully';
+                status.className = 'captcha-status success';
+                document.getElementById('verifyButton').disabled = true;
+                document.getElementById('verifyButton').textContent = 'Done';
+                generateKey();
+            } else {
+                status.textContent = 'Wrong Answer - Try Again';
+                status.className = 'captcha-status error';
+                generateCaptcha(v12_currentDifficulty);
+            }
+        }
+
+        function generateKey() {
+            var v20_timestamp = Math.floor(Date.now() / 1000);
+            var v21_random = generateRandomString(4);
+            var v22_hash = generateHash(v20_timestamp, v12_currentDifficulty);
+            var v23_prefix = v12_currentDifficulty.substring(0, 1).toUpperCase();
+
+            v15_generatedKey = v23_prefix + "KEY-" + v20_timestamp + "-" + v21_random + "-" + v22_hash;
+
+            var v24_hours = 1;
+            if (v12_currentDifficulty === "medium") v24_hours = 10;
+            if (v12_currentDifficulty === "hard") v24_hours = 100;
+
+            v16_keyExpireTime = v20_timestamp + (v24_hours * 3600);
+
+            document.getElementById('keyValue').textContent = v15_generatedKey;
+            document.getElementById('keyDisplay').classList.add('visible');
+
+            v18_keyCount++;
+            document.getElementById('statKeys').textContent = v18_keyCount;
+
+            saveKeyData(v15_generatedKey, v16_keyExpireTime, v12_currentDifficulty);
+            startTimer();
+        }
+
+        function generateRandomString(length) {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var result = "";
-            for (var i = 0; i < 8; i++) {
+            for (var i = 0; i < length; i++) {
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return result;
         }
 
-        function toBase64(text) {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-            var result = "";
-            var pad = "";
-            var padCount = text.length % 3;
-            
-            if (padCount > 0) {
-                for (; padCount < 3; padCount++) {
-                    pad += "=";
-                    text += "\0";
+        function generateHash(timestamp, difficulty) {
+            var base = timestamp + 54321;
+            if (difficulty === "easy") base += 1000;
+            if (difficulty === "medium") base += 2000;
+            if (difficulty === "hard") base += 3000;
+            var reversed = base.toString().split('').reverse().join('');
+            return reversed.substring(0, 4).toUpperCase();
+        }
+
+        function saveKeyData(key, expire, difficulty) {
+            try {
+                var data = {
+                    key: key,
+                    expire: expire,
+                    difficulty: difficulty,
+                    created: Date.now()
+                };
+                localStorage.setItem('script_key_data', JSON.stringify(data));
+            } catch (e) {}
+        }
+
+        function startTimer() {
+            if (v17_timerInterval) clearInterval(v17_timerInterval);
+
+            v17_timerInterval = setInterval(function() {
+                var now = Math.floor(Date.now() / 1000);
+                var remaining = v16_keyExpireTime - now;
+
+                if (remaining <= 0) {
+                    document.getElementById('keyTimer').textContent = 'EXPIRED';
+                    document.getElementById('keyTimer').style.color = '#f87171';
+                    clearInterval(v17_timerInterval);
+                    return;
                 }
-            }
-            
-            for (var i = 0; i < text.length; i += 3) {
-                var n = (text.charCodeAt(i) << 16) | (text.charCodeAt(i + 1) << 8) | text.charCodeAt(i + 2);
-                result += chars.charAt((n >> 18) & 63);
-                result += chars.charAt((n >> 12) & 63);
-                result += chars.charAt((n >> 6) & 63);
-                result += chars.charAt(n & 63);
-            }
-            
-            return result.substring(0, result.length - pad.length) + pad;
+
+                var hours = Math.floor(remaining / 3600);
+                var minutes = Math.floor((remaining % 3600) / 60);
+                var seconds = remaining % 60;
+
+                var timeStr =
+                    (hours < 10 ? '0' : '') + hours + ':' +
+                    (minutes < 10 ? '0' : '') + minutes + ':' +
+                    (seconds < 10 ? '0' : '') + seconds;
+
+                document.getElementById('keyTimer').textContent = timeStr;
+            }, 1000);
         }
 
-        function toBytes(text) {
-            var result = "";
-            for (var i = 0; i < text.length; i++) {
-                result += "\\" + text.charCodeAt(i);
-            }
-            return result;
+        function copyKey() {
+            navigator.clipboard.writeText(v15_generatedKey);
+            var btn = document.querySelector('.copy-button');
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied';
+            setTimeout(function() {
+                btn.innerHTML = '<i class="fas fa-copy"></i> Copy Key';
+            }, 2000);
         }
 
-        function toHex(text) {
-            var result = "";
-            for (var i = 0; i < text.length; i++) {
-                var h = text.charCodeAt(i).toString(16);
-                if (h.length < 2) h = "0" + h;
-                result += "\\x" + h;
+        window.onload = function() {
+            var params = new URLSearchParams(window.location.search);
+            var checkKey = params.get('check');
+            
+            if (checkKey) {
+                var isValid = validateKeyFormat(checkKey);
+                document.body.innerHTML = '<pre style="color:#0f0;background:#000;padding:20px;font-family:monospace;">' + 
+                    JSON.stringify({valid: isValid, key: checkKey, time: Date.now()}, null, 2) + '</pre>';
             }
-            return result;
-        }
+        };
 
-        function compress(text) {
-            var lines = text.split('\n');
-            var clean = [];
-            
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i].trim();
-                if (line !== "" && line.substring(0, 2) !== "--") {
-                    clean.push(line);
-                }
-            }
-            
-            return clean.join(' ');
-        }
-
-        function makeEncoded(script, obfuscate) {
-            var id = makeId();
-            var data = toBase64(script);
-            
-            if (obfuscate) {
-                var out = 'local _' + id + '=(function()';
-                out += 'local d="' + data + '"';
-                out += 'local c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"';
-                out += 'local t={}for i=1,64 do t[c:sub(i,i)]=i-1 end ';
-                out += 'd=d:gsub("=","")local o=""';
-                out += 'for i=1,#d,4 do ';
-                out += 'local a,b,c,e=t[d:sub(i,i)]or 0,t[d:sub(i+1,i+1)]or 0,t[d:sub(i+2,i+2)]or 0,t[d:sub(i+3,i+3)]or 0 ';
-                out += 'local n=(a*262144)+(b*4096)+(c*64)+e ';
-                out += 'o=o..string.char(math.floor(n/65536)%256,math.floor(n/256)%256,n%256)end ';
-                out += 'return o:gsub("%z+$","")end)()';
-                out += 'loadstring(_' + id + ')()';
-                return { output: out, id: id };
-            } else {
-                var out = 'loadstring((function()local d="' + data + '"';
-                out += 'local b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"';
-                out += 'local t={}for i=1,64 do t[b:sub(i,i)]=i-1 end ';
-                out += 'd=d:gsub("=","")local o=""';
-                out += 'for i=1,#d,4 do local a,b,c,e=t[d:sub(i,i)]or 0,t[d:sub(i+1,i+1)]or 0,t[d:sub(i+2,i+2)]or 0,t[d:sub(i+3,i+3)]or 0 ';
-                out += 'local n=(a*262144)+(b*4096)+(c*64)+e ';
-                out += 'o=o..string.char(math.floor(n/65536)%256,math.floor(n/256)%256,n%256)end ';
-                out += 'return o:gsub("%z+$","")end)())()';
-                return { output: out, id: id };
-            }
-        }
-
-        function makeByte(script, obfuscate) {
-            var id = makeId();
-            var bytes = toBytes(script);
-            
-            if (obfuscate) {
-                var key = Math.floor(Math.random() * 20) + 5;
-                var shifted = "";
-                for (var i = 0; i < script.length; i++) {
-                    shifted += "\\" + (script.charCodeAt(i) + key);
-                }
-                var out = 'local _' + id + '=function(s,k)local r=""for i=1,#s do r=r..string.char(s:byte(i)-k)end return r end ';
-                out += 'loadstring(_' + id + '("' + shifted + '",' + key + '))()';
-                return { output: out, id: id };
-            } else {
-                var out = 'loadstring("' + bytes + '")()';
-                return { output: out, id: id };
-            }
-        }
-
-        function makeHex(script, obfuscate) {
-            var id = makeId();
-            var hex = toHex(script);
-            
-            if (obfuscate) {
-                var key = Math.floor(Math.random() * 15) + 3;
-                var shifted = "";
-                for (var i = 0; i < script.length; i++) {
-                    var h = (script.charCodeAt(i) + key).toString(16);
-                    if (h.length < 2) h = "0" + h;
-                    shifted += "\\x" + h;
-                }
-                var out = 'local _' + id + '=function(s,k)local r=""for i=1,#s do r=r..string.char(s:byte(i)-k)end return r end ';
-                out += 'loadstring(_' + id + '("' + shifted + '",' + key + '))()';
-                return { output: out, id: id };
-            } else {
-                var out = 'loadstring("' + hex + '")()';
-                return { output: out, id: id };
-            }
-        }
-
-        function createLoadstring() {
-            var script = document.getElementById('scriptInput').value;
-            
-            if (script.trim() === "") {
-                alert("Enter Lua code first");
-                return;
-            }
-            
-            var obfuscate = document.getElementById('checkObfuscate').checked;
-            var shouldCompress = document.getElementById('checkCompress').checked;
-            
-            if (shouldCompress) {
-                script = compress(script);
-            }
-            
-            var result;
-            
-            if (pickedMethod === "encoded") {
-                result = makeEncoded(script, obfuscate);
-            } else if (pickedMethod === "byte") {
-                result = makeByte(script, obfuscate);
-            } else if (pickedMethod === "hex") {
-                result = makeHex(script, obfuscate);
-            }
-            
-            lastOutput = result.output;
-            
-            document.getElementById('finalOutput').textContent = result.output;
-            document.getElementById('infoSize').textContent = result.output.length + " bytes";
-            document.getElementById('infoId').textContent = "ID: " + result.id;
-            document.getElementById('outputArea').classList.add('visible');
-        }
-
-        function createFromUrl() {
-            var url = document.getElementById('rawUrlInput').value.trim();
-            
-            if (url === "") {
-                alert("Enter a raw URL first");
-                return;
-            }
-            
-            if (url.indexOf("http") !== 0) {
-                alert("URL must start with http or https");
-                return;
-            }
-            
-            lastUrlOutput = 'loadstring(game:HttpGet("' + url + '"))()';
-            
-            document.getElementById('urlLoadstringOutput').textContent = lastUrlOutput;
-            document.getElementById('urlOutputArea').classList.add('visible');
-        }
-
-        function copyResult() {
-            navigator.clipboard.writeText(lastOutput);
-            alert("Copied");
-        }
-
-        function copyUrlResult() {
-            navigator.clipboard.writeText(lastUrlOutput);
-            alert("Copied");
+        function validateKeyFormat(key) {
+            if (!key || key.length < 15) return false;
+            var parts = key.split('-');
+            if (parts.length !== 4) return false;
+            var prefix = parts[0];
+            if (prefix !== "EKEY" && prefix !== "MKEY" && prefix !== "HKEY") return false;
+            var timestamp = parseInt(parts[1]);
+            if (isNaN(timestamp)) return false;
+            var now = Math.floor(Date.now() / 1000);
+            var age = now - timestamp;
+            var maxAge = 3600;
+            if (prefix === "MKEY") maxAge = 36000;
+            if (prefix === "HKEY") maxAge = 360000;
+            if (age > maxAge || age < 0) return false;
+            return true;
         }
     </script>
 
