@@ -3,517 +3,466 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RetroCode Runner 2002</title>
+<title>Runrunrun</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=VT323&family=Verdana&display=swap');
-
 :root {
-    --bg-color: #c0c0c0;
-    --dark-border: #404040;
-    --light-border: #ffffff;
-    --title-blue: #000080;
-    --text-color: #000000;
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --accent: #60a5fa;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --danger: #ef4444;
+    --success: #10b981;
+    --gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    background-color: #008080;
-    font-family: 'Verdana', sans-serif;
-    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+header {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
     padding: 20px;
-    color: var(--text-color);
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+}
+
+h1 i {
+    font-size: 1.8rem;
+    color: var(--primary);
+}
+
+main {
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.nav-tabs {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.retro-window {
-    background-color: var(--bg-color);
-    border-top: 2px solid var(--light-border);
-    border-left: 2px solid var(--light-border);
-    border-right: 2px solid var(--dark-border);
-    border-bottom: 2px solid var(--dark-border);
-    box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
-    width: 100%;
-    max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-}
-
-.title-bar {
-    background: linear-gradient(90deg, #000080, #1084d0);
-    color: white;
-    padding: 4px 8px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-}
-
-.title-controls button {
-    background: #c0c0c0;
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
-    width: 16px;
-    height: 16px;
-    font-size: 10px;
-    line-height: 10px;
-    padding: 0;
-    cursor: pointer;
-    margin-left: 2px;
-}
-
-.menu-bar {
-    display: flex;
     gap: 15px;
-    padding: 4px 10px;
-    border-bottom: 1px solid #808080;
-    font-size: 12px;
-}
-
-.menu-item {
-    cursor: pointer;
-}
-
-.menu-item:hover {
-    text-decoration: underline;
-    color: var(--title-blue);
-}
-
-.main-content {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.tab-nav {
-    display: flex;
-    gap: 5px;
-    border-bottom: 2px solid white;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+    animation: fadeIn 0.8s ease-out;
 }
 
 .tab-btn {
-    padding: 5px 15px;
-    background: #c0c0c0;
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    padding: 12px 25px;
+    border-radius: 30px;
     cursor: pointer;
-    font-family: 'Verdana', sans-serif;
-    font-size: 12px;
-    margin-bottom: -2px;
-    position: relative;
-    z-index: 1;
-}
-
-.tab-btn.active {
-    background: #e0e0e0;
-    border-bottom: 2px solid #e0e0e0;
-    z-index: 2;
-    font-weight: bold;
-}
-
-.workspace {
-    display: none;
-    background: #e0e0e0;
-    border: 2px inset white;
-    padding: 10px;
-    min-height: 400px;
-    flex-direction: column;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
     gap: 10px;
 }
 
-.workspace.active {
-    display: flex;
+.tab-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
 }
 
-.editor-area {
-    flex: 1;
+.tab-btn.active {
+    background: var(--gradient);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+}
+
+.content-section {
+    display: none;
+    animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content-section.active {
+    display: block;
+}
+
+.card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+
+.editor-container {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 15px;
 }
 
 label {
-    font-weight: bold;
-    font-size: 12px;
-    color: #444;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 textarea {
     width: 100%;
-    height: 200px;
-    background-color: white;
-    border: 2px inset #dfdfdf;
-    font-family: 'Courier New', monospace;
+    height: 300px;
+    background: #0b1120;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
+    line-height: 1.6;
     resize: vertical;
-    padding: 5px;
-    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.controls {
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.action-bar {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 5px;
-}
-
-.retro-btn {
-    background: #c0c0c0;
-    border-top: 2px solid white;
-    border-left: 2px solid white;
-    border-right: 2px solid black;
-    border-bottom: 2px solid black;
-    padding: 5px 20px;
-    font-family: 'Verdana', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    color: black;
-}
-
-.retro-btn:active {
-    border-top: 2px solid black;
-    border-left: 2px solid black;
-    border-right: 2px solid white;
-    border-bottom: 2px solid white;
-    transform: translate(1px, 1px);
-}
-
-.output-area {
-    margin-top: 10px;
-    border: 2px inset white;
-    background: white;
-    flex: 1;
-    min-height: 150px;
-    overflow: auto;
-    position: relative;
-}
-
-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: white;
-}
-
-.console-output {
-    padding: 10px;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    white-space: pre-wrap;
-    color: #000;
-}
-
-.log-entry {
-    margin-bottom: 4px;
-    border-bottom: 1px dotted #ccc;
-}
-
-.log-error {
-    color: #800000;
-    font-weight: bold;
-    background: #ffcccc;
-}
-
-.log-info {
-    color: #000080;
-}
-
-.beta-tag {
-    background: #ff0000;
-    color: white;
-    font-size: 10px;
-    padding: 1px 4px;
-    margin-left: 5px;
-    animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-    50% { opacity: 0; }
-}
-
-.footer {
-    margin-top: 15px;
-    padding: 10px;
-    border-top: 1px solid #808080;
-    text-align: center;
-    font-size: 11px;
-    color: #444;
-    background: #e0e0e0;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 15px;
 }
 
-.discord-icon {
-    width: 16px;
-    height: 16px;
-    fill: #7289da;
-}
-
-h1 {
-    font-size: 16px;
-    margin: 0;
+.run-btn {
+    background: var(--gradient);
+    border: none;
     color: white;
-    text-shadow: 1px 1px 0 #000;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.pixel-icon {
-    width: 12px;
-    height: 12px;
-    vertical-align: middle;
+.run-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
 }
+
+.run-btn i {
+    transition: transform 0.3s ease;
+}
+
+.run-btn:hover i {
+    transform: translateX(3px);
+}
+
+.preview-frame {
+    width: 100%;
+    height: 400px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.rickroll-theme {
+    background: radial-gradient(circle at center, #1e3a8a 0%, #172554 100%);
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.rickroll-theme::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
+    animation: pulse 4s infinite;
+}
+
+.video-container {
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    position: relative;
+    z-index: 2;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+}
+
+.human-ui-element {
+    position: absolute;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(5px);
+    padding: 15px 25px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.1);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #bfdbfe;
+    font-weight: 500;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.human-ui-element.top-left {
+    top: 30px;
+    left: 30px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.human-ui-element.bottom-right {
+    bottom: 30px;
+    right: 30px;
+    animation: float 6s ease-in-out infinite reverse;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: auto;
+}
+
+footer i {
+    color: var(--accent);
+    margin-right: 5px;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.js-status {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: none;
+}
+.js-status.success { background: rgba(16, 185, 129, 0.2); color: var(--success); display: block; }
+.js-status.error { background: rgba(239, 68, 68, 0.2); color: var(--danger); display: block; }
+
 </style>
 </head>
 <body>
 
-<div class="retro-window">
-    <div class="title-bar">
-        <span>RetroCode Runner - 2002 Edition</span>
-        <div class="title-controls">
-            <button>_</button>
-            <button>X</button>
+<header>
+    <h1><i class="fa-solid fa-bolt"></i> Runrunrun</h1>
+</header>
+
+<main>
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('html')"><i class="fa-brands fa-html5"></i> HTML</button>
+        <button class="tab-btn" onclick="switchTab('js')"><i class="fa-brands fa-js"></i> JavaScript</button>
+        <button class="tab-btn" onclick="switchTab('rickroll')"><i class="fa-solid fa-film"></i> Video</button>
+    </nav>
+
+    <div id="tab-html" class="content-section active">
+        <div class="card editor-container">
+            <label><i class="fa-solid fa-code"></i> Source Code</label>
+            <textarea id="html-code" placeholder="Write your HTML here..."><h1 style="color: #333; font-family: sans-serif;">Hello World</h1>
+<p style="color: #666;">Welcome to Runrunrun 2024 Edition.</p>
+<button style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">Click Me</button></textarea>
+            
+            <div class="action-bar">
+                <button class="run-btn" onclick="runHTML()"><i class="fa-solid fa-play"></i> Run Code</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <label><i class="fa-solid fa-desktop"></i> Live Preview</label>
+            <iframe id="html-output" class="preview-frame"></iframe>
         </div>
     </div>
-    
-    <div class="menu-bar">
-        <span class="menu-item">File</span>
-        <span class="menu-item">Edit</span>
-        <span class="menu-item">View</span>
-        <span class="menu-item">Help</span>
+
+    <div id="tab-js" class="content-section">
+        <div class="card editor-container">
+            <label><i class="fa-solid fa-laptop-code"></i> JavaScript Logic</label>
+            <textarea id="js-code" placeholder="Write your JS here...">console.log("System active");
+
+const element = document.createElement('div');
+element.textContent = "JavaScript executed successfully!";
+element.style.padding = "20px";
+element.style.background = "#10b981";
+element.style.color = "white";
+element.style.borderRadius = "8px";
+element.style.fontFamily = "sans-serif";
+
+document.body.appendChild(element);</textarea>
+            
+            <div class="action-bar">
+                <button class="run-btn" onclick="runJS()"><i class="fa-solid fa-bolt"></i> Execute</button>
+            </div>
+            <div id="js-status" class="js-status"></div>
+        </div>
+        
+        <div class="card">
+            <label><i class="fa-solid fa-eye"></i> Execution Context</label>
+            <iframe id="js-output" class="preview-frame"></iframe>
+        </div>
     </div>
 
-    <div class="main-content">
-        <div class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('html')">HTML Runner</button>
-            <button class="tab-btn" onclick="switchTab('js')">JS Runner</button>
-            <button class="tab-btn" onclick="switchTab('discord')">Discord.js (Beta) <span class="beta-tag">BETA</span></button>
-        </div>
-
-        <div id="tab-html" class="workspace active">
-            <div class="editor-area">
-                <label>HTML Source Code:</label>
-                <textarea id="html-code" placeholder="Type your HTML here..."><h1>Hello World</h1>
-<p style="color: blue; font-family: Verdana;">This is a test page in the retro runner.</p>
-<button onclick="alert('It works!')">Click Me</button></textarea>
-                
-                <div class="controls">
-                    <button class="retro-btn" onclick="clearOutput('html-output')">Clear</button>
-                    <button class="retro-btn" onclick="runHTML()">Run HTML</button>
-                </div>
+    <div id="tab-rickroll" class="content-section">
+        <div class="rickroll-theme">
+            <div class="human-ui-element top-left">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Magic Mode
             </div>
             
-            <div class="editor-area" style="margin-top: 10px;">
-                <label>Preview Window:</label>
-                <div class="output-area">
-                    <iframe id="html-output"></iframe>
-                </div>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
-        </div>
 
-        <div id="tab-js" class="workspace">
-            <div class="editor-area">
-                <label>JavaScript Code:</label>
-                <textarea id="js-code" placeholder="Type your JavaScript here...">console.log("System initializing...");
-console.log("Welcome to the JS runner.");
-
-function greet(name) {
-    return "Hello there, " + name + "!";
-}
-
-console.log(greet("User"));</textarea>
-                
-                <div class="controls">
-                    <button class="retro-btn" onclick="clearConsole('js-output')">Clear Log</button>
-                    <button class="retro-btn" onclick="runJS()">Execute JS</button>
-                </div>
-            </div>
-            
-            <div class="editor-area" style="margin-top: 10px;">
-                <label>Console Output:</label>
-                <div id="js-output" class="output-area console-output">
-                    <div class="log-entry log-info">Ready to execute code...</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-discord" class="workspace">
-            <div class="editor-area">
-                <label>Discord.js Script (Simulated Environment):</label>
-                <textarea id="discord-code" placeholder="const client = new Client(); ...">const client = new Client();
-
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-});
-
-client.on('messageCreate', message => {
-    if (message.content === '!ping') {
-        message.channel.send('Pong!');
-        console.log('Pong command sent!');
-    }
-});
-
-client.login('YOUR_TOKEN_HERE');</textarea>
-                
-                <div class="controls">
-                    <button class="retro-btn" onclick="clearConsole('discord-output')">Clear Log</button>
-                    <button class="retro-btn" onclick="runDiscord()">Connect Bot</button>
-                </div>
-            </div>
-            
-            <div class="editor-area" style="margin-top: 10px;">
-                <label>Bot Connection Status:</label>
-                <div id="discord-output" class="output-area console-output">
-                    <div class="log-entry log-info">Discord.js simulation loaded. Waiting for connection...</div>
-                </div>
+            <div class="human-ui-element bottom-right">
+                <i class="fa-solid fa-heart"></i> Human Theme
             </div>
         </div>
     </div>
+</main>
 
-    <div class="footer">
-        Created with <span style="color: red;">&hearts;</span> by dashalostacc 
-        <svg class="discord-icon" viewBox="0 0 24 24">
-            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-        </svg>
-    </div>
-</div>
+<footer>
+    Made with <i class="fa-solid fa-code"></i> by Dashalostacc made ts
+</footer>
 
 <script>
-function switchTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.workspace').forEach(ws => ws.classList.remove('active'));
-    
-    event.target.classList.add('active');
-    document.getElementById('tab-' + tabName).classList.add('active');
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    event.currentTarget.classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
 }
 
 function runHTML() {
     const code = document.getElementById('html-code').value;
-    const output = document.getElementById('html-output');
-    output.srcdoc = code;
-}
-
-function clearOutput(id) {
-    document.getElementById(id).srcdoc = '';
-}
-
-function logToConsole(elementId, message, type = 'normal') {
-    const consoleDiv = document.getElementById(elementId);
-    const entry = document.createElement('div');
-    entry.className = 'log-entry';
-    if (type === 'error') entry.classList.add('log-error');
-    if (type === 'info') entry.classList.add('log-info');
-    const timestamp = new Date().toLocaleTimeString();
-    entry.textContent = `[${timestamp}] ${message}`;
-    consoleDiv.appendChild(entry);
-    consoleDiv.scrollTop = consoleDiv.scrollHeight;
-}
-
-function clearConsole(id) {
-    document.getElementById(id).innerHTML = '<div class="log-entry log-info">Console cleared.</div>';
+    const iframe = document.getElementById('html-output');
+    iframe.srcdoc = code;
 }
 
 function runJS() {
     const code = document.getElementById('js-code').value;
-    const outputId = 'js-output';
-    const originalLog = console.log;
+    const iframe = document.getElementById('js-output');
+    const statusDiv = document.getElementById('js-status');
     
-    console.log = function(...args) {
-        logToConsole(outputId, args.join(' '));
-        originalLog.apply(console, args);
+    statusDiv.className = 'js-status';
+    statusDiv.style.display = 'none';
+
+    const scriptContent = `
+        <script>
+            window.onerror = function(message, source, lineno, colno, error) {
+                document.body.innerHTML = '<div style="color:red; font-family:sans-serif; padding:20px;">Error: ' + message + '</div>';
+                window.parent.postMessage({type: 'error', message: message}, '*');
+                return true;
+            };
+            try {
+                ${code}
+                window.parent.postMessage({type: 'success'}, '*');
+            } catch(e) {
+                document.body.innerHTML = '<div style="color:red; font-family:sans-serif; padding:20px;">Error: ' + e.message + '</div>';
+                window.parent.postMessage({type: 'error', message: e.message}, '*');
+            }
+        <\/script>
+    `;
+
+    const cleanBody = `<body style="margin:0; padding:20px; font-family: sans-serif;"></body>`;
+    iframe.srcdoc = `<html>${cleanBody}${scriptContent}</html>`;
+
+    window.onmessage = function(e) {
+        if (e.data.type === 'success') {
+            statusDiv.textContent = "Code executed successfully.";
+            statusDiv.classList.add('success');
+        } else if (e.data.type === 'error') {
+            statusDiv.textContent = "Runtime error: " + e.data.message;
+            statusDiv.classList.add('error');
+        }
     };
-
-    try {
-        logToConsole(outputId, 'Executing...', 'info');
-        new Function(code)();
-    } catch (error) {
-        logToConsole(outputId, error.toString(), 'error');
-    }
-
-    setTimeout(() => {
-        console.log = originalLog;
-    }, 100);
 }
 
-function runDiscord() {
-    const code = document.getElementById('discord-code').value;
-    const outputId = 'discord-output';
-    const originalLog = console.log;
-    
-    const mockMessage = {
-        content: '!ping',
-        channel: {
-            send: (msg) => {
-                logToConsole(outputId, `[Bot] Sent message: "${msg}"`);
-            }
-        },
-        author: {
-            username: 'TestUser'
-        }
-    };
-
-    const mockUser = {
-        tag: 'TestBot#1234'
-    };
-
-    class MockClient {
-        constructor() {
-            this.user = mockUser;
-            this.events = {};
-        }
-
-        on(event, callback) {
-            if (!this.events[event]) {
-                this.events[event] = [];
-            }
-            this.events[event].push(callback);
-        }
-
-        login(token) {
-            logToConsole(outputId, 'Connecting to Discord gateway...', 'info');
-            
-            setTimeout(() => {
-                logToConsole(outputId, `Logged in as ${this.user.tag}!`);
-                if (this.events['ready']) {
-                    this.events['ready'].forEach(cb => cb());
-                }
-                
-                setTimeout(() => {
-                    logToConsole(outputId, 'Received message: "!ping" from TestUser');
-                    if (this.events['messageCreate']) {
-                        this.events['messageCreate'].forEach(cb => cb(mockMessage));
-                    }
-                }, 2000);
-
-            }, 1500);
-        }
-    }
-
-    const environment = {
-        console: {
-            log: (...args) => logToConsole(outputId, args.join(' '))
-        },
-        Client: MockClient
-    };
-
-    try {
-        logToConsole(outputId, 'Initializing Bot script...', 'info');
-        const runBot = new Function('Client', 'console', code);
-        runBot(MockClient, environment.console);
-    } catch (error) {
-        logToConsole(outputId, `Bot Error: ${error.message}`, 'error');
-    }
-}
+document.addEventListener('DOMContentLoaded', () => {
+    runHTML();
+});
 </script>
 
 </body>
-    </html>
+            </html>
